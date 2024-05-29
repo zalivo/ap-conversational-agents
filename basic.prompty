@@ -1,0 +1,40 @@
+---
+name: Painting Gallery Agent
+description: A prompt that uses context to ground an incoming question
+authors:
+  - Thomas
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    azure_endpoint: https://ut-oai-eastus.openai.azure.com
+    azure_deployment: gpt-4o
+    api_key: <api_key>
+  parameters:
+    max_tokens: 3000
+sample:
+  firstName: Thomas
+  context: >
+    I am blind. try to describe the painting in detail so that I can understand it better.
+  question: Can you describe the painting in detail?
+  image: https://th.bing.com/th/id/R.842fb9a1885e50a762ef352821d9078d?rik=ykwt7kPK%2f3ngFA&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2fe%2fe8%2fVan_Gogh_The_Olive_Trees..jpg&ehk=o8ZPcWcu3H0Vdk%2b2E5YJ63CXJSSHb3BFrzKL3UG5HOU%3d&risl=1&pid=ImgRaw&r=0
+---
+
+system:
+You are an AI assistant who helps people find information. As the assistant, 
+you answer questions briefly, succinctly, and in a personable manner using 
+markdown and even add some personal flair with appropriate emojis.
+
+# Customer
+You are helping {{firstName}} to find answers to their questions.
+Use their name to address them in your responses.
+
+# Context
+Use the following context to provide a more personalized response to {{firstName}}:
+{{context}}
+
+# Painting
+{{image}}
+
+user:
+{{question}}
