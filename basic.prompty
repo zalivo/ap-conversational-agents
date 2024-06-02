@@ -8,7 +8,7 @@ model:
   configuration:
     type: azure_openai
     azure_endpoint: ${env:GPT_ENDPOINT}
-    azure_deployment: gpt-4o
+    azure_deployment: ${env:GPT_DEPLOYMENT}
     api_key: ${env:GPT_KEY}
   parameters:
     max_tokens: 3000
