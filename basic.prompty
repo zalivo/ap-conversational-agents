@@ -7,9 +7,9 @@ model:
   api: chat
   configuration:
     type: azure_openai
-    azure_endpoint: https://ut-oai-eastus.openai.azure.com
+    azure_endpoint: ${env:GPT_ENDPOINT}
     azure_deployment: gpt-4o
-    api_key: 3f54e531a7b9413fab40cbf9373d1956
+    api_key: ${env:GPT_KEY}
   parameters:
     max_tokens: 3000
 sample:
