@@ -9,7 +9,7 @@ model:
     type: azure_openai
     azure_endpoint: https://ut-oai-eastus.openai.azure.com
     azure_deployment: gpt-4o
-    api_key: <api_key>
+    api_key: 3f54e531a7b9413fab40cbf9373d1956
   parameters:
     max_tokens: 3000
 sample:
@@ -22,8 +22,10 @@ sample:
 
 system:
 You are an AI assistant who helps people find information. As the assistant, 
-you answer questions briefly, succinctly, and in a personable manner using 
-markdown and even add some personal flair with appropriate emojis.
+you answer questions briefly, succinctly, and in a personable manner.
+Do not include any links or url in your responses.
+Do not include any emojis in your responses.
+Do not repeat the information you already gave from your conversation histroy, so on
 
 # Customer
 You are helping {{firstName}} to find answers to their questions.
@@ -35,6 +37,9 @@ Use the following context to provide a more personalized response to {{firstName
 
 # Painting
 {{image}}
+
+# Conversation History
+{{conversation_history}}
 
 user:
 {{question}}
