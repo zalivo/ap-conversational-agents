@@ -10,18 +10,20 @@ from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer,Speec
 from azure.cognitiveservices.speech.audio import AudioOutputConfig
 from openai import AzureOpenAI
 
-from neo4j import GraphDatabase
-
 #dotenv
 from dotenv import load_dotenv
 load_dotenv()
+
+# internal imports
+from content_handling import ContentHandler
+from knowledge_connection import PaintingKnowledge
 #--------------------------------------------------
 class VRisper:
     def __init__(self, prompt, knowledge_base):
         # Initialise Azure OpenAI
         self.client = AzureOpenAI(
-            azure_endpoint=os.environ.get('OPEN_AI_ENDPOINT'),
-            api_key=os.environ.get('OPEN_AI_KEY'),
+            azure_endpoint=os.environ.get('GPT_ENDPOINT'),
+            api_key=os.environ.get('GPT_KEY'),
         )
         #Speech Config
         self.speech_config = SpeechConfig(
@@ -52,11 +54,15 @@ class VRisper:
         self.voice_response = None
 
         # Neo4j database
-        self.knowledge_db = GraphDatabase.driver(
+        self.knowledge_db = PaintingsKnowledge(
             uri=os.environ.get('NEO4J_URI'), 
-            auth=(os.environ.get('NEO4J_USER'), os.environ.get('NEO4J_PASSWORD'))
+            user=os.environ.get('NEO4J_USER'), 
+            password=os.environ.get('NEO4J_PASSWORD')
         )
-
+        # self.knowledge_db = GraphDatabase.driver(
+        #     uri=os.environ.get('NEO4J_URI'), 
+        #     auth=(os.environ.get('NEO4J_USER'), os.environ.get('NEO4J_PASSWORD'))
+        # )
 
     # Static properties to call out
     @property
@@ -80,7 +86,7 @@ class VRisper:
         return self.system_prompt
 
 
-    # FUNCTIONS OF THE CLASS-----------------------------------
+    # FUNCTIONS OF THE VR-CUI-----------------------------------
     def send_voice_request(self, user_input):
         # Ask Azure OpenAI in streaming way
         response = self.client.chat.completions.create(
@@ -121,7 +127,7 @@ class VRisper:
                 # Speech was recognized, send the voice input
                 if speech_recognition_result.reason == ResultReason.RecognizedSpeech:
                     # Case 1: Command: Vrisper - start the conversation #TODO: Change different name
-                    if speech_recognition_result.text == "Vrisper.":
+                    if speech_recognition_result.text == "Hi, Vrisper.":
                        print("Conversation started.")
                     # Case 2: Command: STOP - end the conversation
                     elif speech_recognition_result.text == "Stop.": 
@@ -130,6 +136,8 @@ class VRisper:
                     # Case 3: Normal conversation
                     else:
                         #FIXME: Added different content handling
+                        # list of pre-defined topics,painting knowledge, image processing
+                        # user input match with each of these cases
                         continue
                         
                     conversation = speech_recognition_result.text
@@ -171,34 +179,7 @@ class VRisper:
         except Exception as ex:
             print(f"Error synthesizing audio: {ex}")
             return False
-#--------------------------------------------------
-# # Initialise Azure OpenAI
-# client = AzureOpenAI(
-#     azure_endpoint=os.environ.get('OPEN_AI_ENDPOINT'),
-#     api_key=os.environ.get('OPEN_AI_KEY'),
-# )
 
-# # Initialise Azure Speech
-# speech_config = SpeechConfig(
-#     subscription=os.environ.get('SPEECH_KEY'), 
-#     region=os.environ.get('SPEECH_REGION'),
-#     speech_recognition_language="en-US",
-#     )
-# # Speech Synthesizer
-# speech_config.speech_synthesis_voice_name='en-US-JennyMultilingualNeural' #voice response
-# speech_synthesizer = SpeechSynthesizer(speech_config=speech_config, audio_config=audio_output_config)
-# # tts sentence end mark
-# tts_sentence_end = [ ".", "!", "?", ";", "。", "！", "？", "；", "\n" ]
-
-# #Audio Config
-# audio_output_config = AudioOutputConfig(use_default_speaker=True)
-# audio_config = AudioConfig(use_default_microphone=True)
-
-# # end-to-end speech recognition
-# speech_recognizer = SpeechRecognizer(
-#     speech_config=speech_config, 
-#     audio_config=audio_config
-# )
 
 
 
