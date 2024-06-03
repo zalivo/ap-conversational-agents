@@ -1,0 +1,22 @@
+LOAD CSV WITH HEADERS FROM 'file:///cultural_heritage.csv' AS row
+CREATE (:CulturalHeritage {
+    id: row._id,
+    labels: row._labels,
+    classLabel: row._classLabel,
+    dataTypePropertyLabel: row._dataTypePropertyLabel,
+    domainRel: row._domainRel,
+    handleMultival: row._handleMultival,
+    handleRDFTypes: row._handleRDFTypes,
+    handleVocabUris: row._handleVocabUris,
+    keepCustomDataTypes: row._keepCustomDataTypes,
+    exhibit: row.exhibit,
+    height: row.height,
+    img: row.img,
+    name: row.name,
+    sitelink: row.sitelink,
+    uri: row.uri,
+    width: row.width,
+    start: row._start,
+    end: row._end,
+    type: row._type
+});
