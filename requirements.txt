@@ -1,4 +1,14 @@
 azure-cognitiveservices-speech
+azure-ai-formrecognizer
+azure-identity
+prompt_toolkit
+promptflow 
+promptflow-tools
+azure-storage-blob
+sounddevice
 openai
 neo4j
 python-dotenv
+load_dotenv
+py2neo
+ipython
