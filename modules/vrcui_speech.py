@@ -6,7 +6,7 @@ import json
 
 #import resource
 # import azure.cognitiveservices.speech as speechsdk
-from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer,SpeechRecognizer, AudioConfig, AudioOutputConfig, ResultReason
+from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer,SpeechRecognizer, AudioConfig, ResultReason
 from azure.cognitiveservices.speech.audio import AudioOutputConfig
 from openai import AzureOpenAI
 
@@ -19,8 +19,8 @@ load_dotenv('.env')
 
 # internal imports
 # from content_handling import ContentHandler
-from knowledge_connection import PaintingsKnowledge
-from voice_command import VoiceCommand
+from modules.knowledge import PaintingsKnowledge
+from modules.voice_command import VoiceCommand
 #--------------------------------------------------
 class VRisper:
     def __init__(self, for_user):
@@ -53,57 +53,10 @@ class VRisper:
             speech_config=self.speech_config, 
             audio_config=self.audio_output_config)
 
-        # Neo4j database
-        # self.knowledge_db = PaintingsKnowledge(
-        #     uri=os.getenv('NEO4J_URI'), 
-        #     user=os.getenv('NEO4J_USER'), 
-        #     password=os.getenv('NEO4J_PASSWORD')
-        # )
-
-        self.user_input = None
+        self._user_input = None
         self.voice_response = None
-        self.username = for_user
+        self._username = for_user
         self.context = ""
-        self.topics = []
-
-    # Properties of the model
-    @property
-    def openai_model(self):
-        return self.client
-    
-    @property
-    def synthesizer(self):
-        return self.speech_synthesizer
-    
-    @property
-    def recognizer(self):
-        return self.speech_recognizer
-    
-    # @property
-    # def knowledge_graph(self):
-    #     return self.knowledge_db
-
-    @property
-    def username(self):
-        return self.username
-    
-    @property
-    def user_input(self):
-        return self.user_input
-
-    @property
-    def context(self):
-        return self.context
-    #SETTERS
-    def set_context(self, context):
-        self.context = context
-    
-    def set_topics(self, topics):
-        self.topics = topics
-
-    def set_user_input(self, user_input):
-        self.user_input = user_input
-    
     # FUNCTIONS OF THE VR-CUI-----------------------------------
 
     # Speech-to-Text - User Input to VUIs
@@ -117,7 +70,7 @@ class VRisper:
                 # Speech was recognized
                 if recog_result.reason == ResultReason.RecognizedSpeech:
                     print("User: {}".format(recog_result.text))
-                    self.user_input = recog_result.text
+                    self._user_input = recog_result.text
                     return recog_result.text
                 # No speech was recognized
                 elif recog_result.reason == ResultReason.NoMatch:
@@ -146,6 +99,8 @@ class VRisper:
                 self.voice_response = result
             else:
                 print(f"Error synthesizing audio: {result}")
+            
+            return result
         except Exception as ex:
             print(f"Error synthesizing audio: {ex}")
     
@@ -160,42 +115,51 @@ class VRisper:
         except Exception as err:
             print(f"Error displaying image: {err}")
     
-    def get_oai_response(self, context=context, user_input="", prompt_path="../prompts/basic.prompty", image_path=image_path, conversation_history=[]):
+    def get_oai_response(self, context="", user_input="", prompt_path="prompts/basic.prompty", image_path="", conversation_history=[]):
         """
         Function that get the response from the OpenAI model.
         using the custom prompt. 
         Giving the context, question, image and conversation history.
         """
-        
-        flow = Prompty.load(prompt_path) #"../prompts/basic.prompty"
-        oai_response = flow(
-            firstName = self.username,
-            context = context,
-            question = user_input,
-            image = image_path,
-            conversation_history = conversation_history
-        )
-        # self.voice_response = oai_response
-        print(f"OpenAI response: {oai_response}")
-        return oai_response
+        print("Getting OpenAI response...")
+        print(f"Prompt Path: {prompt_path} and Image Path: {image_path}")
+        print(f"Context: {context}, User Input: {user_input}")
+        print("-----------------------------------")
+        try: 
+            flow = Prompty.load(prompt_path) #"../prompts/basic.prompty"
+            oai_response = flow(
+                firstName = self._username,
+                context = context,
+                question = user_input,
+                image = image_path,
+                conversation_history = conversation_history
+            )
+            # self.voice_response = oai_response
+            print(f"OpenAI response: {oai_response}")
+            return oai_response
+        except Exception as ex:
+            print(f"Error getting OpenAI response: {ex}")
+            
+            
 
     def activate(self):
         """
         Activate the VUI.
         """
         activate_input = self.speech_to_text()
-        if activate_input == VoiceCommand.Start:
-            # self.text_to_speech(VoiceCommand.AgentGreeting)
+        if activate_input == VoiceCommand.Start.value:
+            self.text_to_speech(VoiceCommand.AgentGreeting.value)
             return True
         else:
+            self.text_to_speech(VoiceCommand.AgentSorry.value)
             return False
     def deactivate(self):
         """
         Deactivate the VUI.
         """
         deactivate_input = self.speech_to_text()
-        if deactivate_input == VoiceCommand.Stop:
-            # self.text_to_speech(VoiceCommand.AgentGoodbye)
+        if deactivate_input == VoiceCommand.End.value:
+            self.text_to_speech(VoiceCommand.AgentGoodbye.value)
             return False
         else:
             return True
