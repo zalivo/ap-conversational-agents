@@ -1,4 +1,3 @@
-# TODO: MATCH STRUCTURE WITH EXISTING KNOWLEDGE GRAPH, AND LINK TO VUI SYSTEM
 
 from neo4j import GraphDatabase
 import os
@@ -18,29 +17,25 @@ class PaintingsKnowledge:
             uri, 
             auth=(user, password)
         )
-        # self.storage = PaintingStorage(
-        #     storage_endpoint=os.getenv('AZURE_STORAGE_ENDPOINT'),
-        #     token=os.getenv('AZURE_STORAGE_SAS_TOKEN')
-        # )
         self.info = []
     
     #Queries functions
 
     def get_all_paintings(self):
+        print("Getting all paintings....")
         with self._driver.session() as session:
             result = session.run(
                 "MATCH (p:Painting) RETURN p.name, p.description, p.style"
             )
-            self.info = [dict(record) for record in result]
-            # return self.info # return of list of paintings store in dictionary
-            return [dict(record) for record in result]
+            self.info = [dict(record) for record in result.data()]
+            return self.info
 
     def get_all_artifacts(self):
         with self._driver.session() as session:
             result = session.run(
                 "MATCH (a:Artifact) RETURN a.name, a.description"
             )
-            self.info = [dict(record) for record in result] # return of list of artifacts store in dictionary
+            self.info = [dict(record) for record in result.data()]
             return self.info
     def get_specific_painting(self, painting_name):
         """
@@ -52,7 +47,7 @@ class PaintingsKnowledge:
                 "MATCH (p:Painting {name: $painting_name}) RETURN p.name, p.description, p.style, p.artist, p.img, p.artifacts",
                 painting_name=painting_name
             ).single()
-            self.info = [dict(result)]
+            self.info = [dict(result.data())]
             return self.info
 
     def get_specific_artifact(graph, artifact_name):
@@ -65,7 +60,7 @@ class PaintingsKnowledge:
                 "MATCH (a:Artifact {name: $artifact_name}) RETURN a",
                 artifact_name=artifact_name
             ).single()
-            self.info = [dict(result)]
+            self.info = [dict(result.data())]
             return self.info
 
     def get_artifacts_by_painting(graph, painting_name):
@@ -74,7 +69,7 @@ class PaintingsKnowledge:
                 "MATCH (p:Painting {name: $painting_name})-[:USES_ARTIFACT]->(a:Artifact) RETURN a",
                 painting_name=painting_name
             )
-            self.info = [dict(record) for record in result]
+            self.info = [dict(record.data()) for record in result]
             return self.info
 
     def close(self):
