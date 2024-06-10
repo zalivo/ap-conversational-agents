@@ -47,30 +47,29 @@ class PaintingsKnowledge:
                 "MATCH (p:Painting {name: $name}) RETURN p.name, p.description, p.style, p.artist, p.img, p.artifacts",
                 name=name
             )
-            print("Result: ", result.data())
-            self.info = [dict(result.data())] if result else []
+            self.info = [dict(record) for record in result.data()]
             return self.info
 
-    def get_specific_artifact(graph, artifact_name):
+    def get_specific_artifact(graph, name):
         """
             Get specific artifact by name
             return: painting information in dictionary
         """
         with graph.session() as session:
             result = session.run(
-                "MATCH (a:Artifact {name: $artifact_name}) RETURN a",
-                artifact_name=artifact_name
-            ).single()
-            self.info = [dict(result.data())]
+                "MATCH (a:Artifact {name: $name}) RETURN a",
+                name=name
+            )
+            self.info = [dict(record) for record in result.data()]
             return self.info
 
-    def get_artifacts_by_painting(graph, painting_name):
+    def get_artifacts_by_painting(graph, name):
         with graph.session() as session:
             result = session.run(
-                "MATCH (p:Painting {name: $painting_name})-[:USES_ARTIFACT]->(a:Artifact) RETURN a",
-                painting_name=painting_name
+                "MATCH (p:Painting {name: $name})-[:USES_ARTIFACT]->(a:Artifact) RETURN a",
+                name=name
             )
-            self.info = [dict(record.data()) for record in result]
+            self.info = [dict(record) for record in result.data()]
             return self.info
 
     def close(self):
