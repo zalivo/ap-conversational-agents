@@ -37,17 +37,18 @@ class PaintingsKnowledge:
             )
             self.info = [dict(record) for record in result.data()]
             return self.info
-    def get_specific_painting(self, painting_name):
+    def get_specific_painting(self, name):
         """
         Get specific painting by name
         return: painting information in dictionary
         """
         with self._driver.session() as session:
             result = session.run(
-                "MATCH (p:Painting {name: $painting_name}) RETURN p.name, p.description, p.style, p.artist, p.img, p.artifacts",
-                painting_name=painting_name
-            ).single()
-            self.info = [dict(result.data())]
+                "MATCH (p:Painting {name: $name}) RETURN p.name, p.description, p.style, p.artist, p.img, p.artifacts",
+                name=name
+            )
+            print("Result: ", result.data())
+            self.info = [dict(result.data())] if result else []
             return self.info
 
     def get_specific_artifact(graph, artifact_name):

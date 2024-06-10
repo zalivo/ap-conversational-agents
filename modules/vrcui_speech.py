@@ -159,7 +159,7 @@ class VRisper:
         """
         deactivate_input = self.speech_to_text()
         if deactivate_input == VoiceCommand.End.value:
-            self.text_to_speech(VoiceCommand.AgentGoodbye.value)
+            # self.text_to_speech(VoiceCommand.AgentGoodbye.value)
             return False
         else:
             return True
