@@ -152,6 +152,7 @@ def handling_topic(user_input, painting_name):
         context = f"Painting Name: {name}, Style: {style}, Artist: {artist}"
     elif VoiceCommand.PaintingArtifact.value in command:
         current_topic = "artifact"
+        #FIXME: Add query for artifacts and making context specific for it
         context = f"Painting Name: {name}, Artifacts: {artifacts}"
     else:
         # any user input that doesn't match the above cases
@@ -199,6 +200,13 @@ def confirm_painting(user_input, painting_name=""):
     # user_input = agent.speech_to_text() #user input, can be any topics
     # print("User input: ", user_input)
     # handling_topic(user_input) #handle user input based on topics
+
+def confirm_artifact(user_input, artifact_name=""):
+    """
+    Confirm the artifact that user want to know
+    """
+    pass
+
 
 if __name__ == "__main__":
     conversation()

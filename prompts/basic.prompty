@@ -44,7 +44,7 @@ Use the following context to provide a more personalized response:
 {{image}}
 
 # Topic
-Using the following topic to provide a more personalized response, only focus on the topic specified:
+Using the following topic to provide a more personalized response, and the response should be aligned with the topic only:
 {{topic}}
 
 # Conversation History
