@@ -34,7 +34,7 @@ class VoiceCommand(Enum):
     AgentOk = "Ok."
     AgentGoodbye = "Great to talk to you. Goodbye!"
     AgentGuide = "I can help you with information about the painting or artifacts it have. These are something you can ask: \n- Painting story \n- Painting style \n - or Artifacts in the painting."
-    AgentBridge = "What would you like to know about?"
+    AgentBridge = "Are there any specific topics you would like to know?"
     AgentPainting = "Let's have some discussion. First of all, can you tell me name of the painting you would like to know about?"
     AgentPaintingAnother = "Don't worry. Can you repeated the name?"
     AgentArtifact = "Great, let's discuss about it. Which artifact would you like to know about?"

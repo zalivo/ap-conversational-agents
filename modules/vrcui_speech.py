@@ -69,7 +69,6 @@ class VRisper:
 
                 # Speech was recognized
                 if recog_result.reason == ResultReason.RecognizedSpeech:
-                    print("User: {}".format(recog_result.text))
                     self._user_input = recog_result.text
                     return recog_result.text
                 # No speech was recognized
@@ -115,7 +114,7 @@ class VRisper:
         except Exception as err:
             print(f"Error displaying image: {err}")
     
-    def get_oai_response(self, context="", user_input="", prompt_path="prompts/basic.prompty", image_path="", conversation_history=[]):
+    def get_oai_response(self, context="", user_input="", prompt_path="prompts/basic.prompty", image_path="", topic="", conversation_history=[]):
         """
         Function that get the response from the OpenAI model.
         using the custom prompt. 
@@ -132,6 +131,7 @@ class VRisper:
                 context = context,
                 question = user_input,
                 image = image_path,
+                topic = topic,
                 conversation_history = conversation_history
             )
             # self.voice_response = oai_response
@@ -140,8 +140,6 @@ class VRisper:
         except Exception as ex:
             print(f"Error getting OpenAI response: {ex}")
             
-            
-
     def activate(self):
         """
         Activate the VUI.
