@@ -1,7 +1,7 @@
-# from modules.content_handling import ContentHandling
 from modules.voice_command import VoiceCommand 
 from modules.vrcui_speech import VRisper
 from modules.knowledge import PaintingsKnowledge
+from modules.content_handling import ask_painting, ask_topic, ask_summary, ask_artifact
 from utils.functions import match_painting_name, match_artifact_name, match_topic
 import os
 from dotenv import load_dotenv
@@ -40,50 +40,59 @@ def conversation():
         #add command to history
         command_history.append(VoiceCommand.AgentGuide.name)
 
-    # 1. Initial User input
-    # agent.text_to_speech(VoiceCommand.AgentBridge.value) #"What would you like to know?"
-    # user_input = agent.speech_to_text().lower() #user input, can be any topics
-
-    # # # STOP conversation: "End" or "Goodbye"	
-    # # if VoiceCommand.End.value in user_input:
-    # #     print("User saying goodbye")
-    # #     agent.text_to_speech(VoiceCommand.AgentGoodbye.value)
-    # #     ongoing_conversation = False
-    # #     return
-
-    # current_topic = match_topic(user_input) #match topic
-    # print("Current Topic by user: ", current_topic)
 
     current_painting = ""
+    conversation_history = [] #conversation history
 
+    
     while ongoing_conversation:
 
-        conversation_history = [] #conversation history
-        
-        if command_handler(user_input) == "goodbye":
-            ongoing_conversation = False
-            conversation_history = []
+        if current_painting == "":
+            agent.text_to_speech(VoiceCommand.AgentPainting.value)
+        else:
+            agent.text_to_speech(f"We are discussing about the painting: {current_painting}. Do you want to continue? If not, say 'goodbye'.")
+            ongoing_conversation = agent.deactivate() #deactivate the conversation
+
+        if not ongoing_conversation:
+            # ongoing_conversation = False
+            conversation_history = [] #clear the conversation history
+            agent.text_to_speech(VoiceCommand.AgentGoodbye.value)
             return
         
         # Started: "Which painting would you like to know about?"
-        agent.text_to_speech(VoiceCommand.AgentPainting.value)
+        # Ask painting success -> continue to dialog
+        # Ask painting failed -> repeat the question
+        user_input = agent.speech_to_text()
+        print("User input conversation: ", user_input)
 
-        painting_name = ask_painting() #handle painting name
+        # agent.text_to_speech(VoiceCommand.AgentPainting.value)
+
+        painting_name = ask_painting(agent, user_input=user_input) #handle painting name
         current_painting = painting_name
         print("Current Painting: ", current_painting)
 
-        discussed_topic = ask_topic() #find the topic
+        discussed_topic = ask_topic(agent) #find the topic
         current_topic = discussed_topic
         print("Current Topic: ", current_topic)
 
-
-        context, img_path, user_input, topic = topic_handler(user_input, painting_name, current_topic) #handle user input based on topics
         
-        if topic == "artifact":
-            artifact_context = artifact_handler(painting_name)
-            context = context + artifact_context
-            continue
+        context, img_path, user_input, topic, artifacts = topic_handler(user_input, painting_name, current_topic) #handle user input based on topics
 
+        print(f"Topic: {topic}, Normal Context: [{context}]")
+
+        if topic == "artifact":
+            print("Handling Artifact in conversation...")
+
+            print(f"List of Artifacts from the painting: {artifacts}")
+
+            artifact_context = artifact_handler(painting_name=current_painting,painting_artifacts=artifacts)
+            if artifact_context == None:
+                break
+            else:
+                print(f"Artifact Context: [{artifact_context}]")
+                context = context + artifact_context
+                continue
+        print(f"Final Context: [{context}]")
         dialog(
             context=context, 
             img_path=img_path, 
@@ -91,6 +100,7 @@ def conversation():
             topic = topic,
             dialog_history=conversation_history
         )
+
         # ongoing = False
     # conversation()
 
@@ -98,21 +108,35 @@ def dialog(context="", img_path="",user_input="", topic="", dialog_history=[]):
     """
     Dialog between user and agent
     """
+    print("Start new dialog...")
+    ongoing_dialog = True   
     current_topic = topic
-    ongoing_dialog = True
-    while ongoing_dialog:
-        user_input = agent.speech_to_text()
-        print("User input: ", user_input)
+    
+    agent.text_to_speech(f"We are discussing about the {current_topic} of the painting.")
+    agent.text_to_speech(VoiceCommand.AgentBridge.value) # asking to discuss
+    
+    # FIXME: WHERE TO ADD THE USER INPUT - HERE?
 
-        if command_handler(user_input) == "stop":
-            ongoing_dialog = False
-            current_topic = ""
-            return
+    while ongoing_dialog:
+        #FIXME: OR HERE?
+        user_input = agent.speech_to_text()
+        print("[User input specific info relate to topic]: ", user_input)
         
-        if command_handler(user_input) == "next":
+        is_next_topic = agent.next_topic(user_input) #next topic
+        is_stop = agent.stop_topic(user_input) #stop the conversation
+
+        if is_next_topic:
+            agent.text_to_speech(VoiceCommand.AgentTopic.value)
             new_topic = ask_topic()
             context, img_path, user_input, topic = topic_handler(user_input, current_painting, new_topic)
             dialog_history = [] # clear the dialog history
+            dialog(context, img_path, user_input, topic, dialog_history)
+            return
+        elif is_stop:
+            agent.text_to_speech(VoiceCommand.AgentStop.value)
+            ongoing_dialog = False
+            current_topic = ""
+            return
 
         response = agent.get_oai_response(
             context=context,
@@ -130,51 +154,7 @@ def dialog(context="", img_path="",user_input="", topic="", dialog_history=[]):
         agent.text_to_speech(response)
     # dialog(user_input)
 
-# Specific Handlers for user voice input -----------------------------------
-def ask_painting():
-    """
-    Agent ask for the painting anme and handling user input
-    This is the internal loop of the dialog, terminated when the painting name is found
-    """
-    found_painting = False
-    painting_name = ""
-    while not found_painting:
-        agent.text_to_speech(VoiceCommand.AgentPaintingAnother.value) #Can you repeated the painting name?
-        user_input = agent.speech_to_text().lower() #painting name
-        print(f"User input painting name:{user_input}")
-        painting_name = match_painting_name(user_input) #match painting name
-        
-        if painting_name == "":
-            agent.text_to_speech(VoiceCommand.AgentPaintingError.value)
-            continue #FIXME: conversation still going on without interruption
-        else:
-            print("Painting Name: ", painting_name)
-            agent.text_to_speech(f"Great! Let's discuss about the painting: {painting_name}.")
-            found_painting = True
-    return painting_name
-
-def ask_topic():
-    """
-    Agent ask for the topic and handling user input
-    This is the internal loop of the dialog, terminated when the topic is found
-    """
-    found_topic = False
-    topic = None
-    while not found_topic:
-        agent.text_to_speech(VoiceCommand.AgentTopic.value) #Can you repeated the painting name?
-        user_input = agent.speech_to_text().lower() #painting name
-        print(f"User input topic:{user_input}")
-        topic = match_topic(user_input) #match painting name
-
-        if topic == None:
-            agent.text_to_speech(VoiceCommand.AgentTopicError.value)
-            continue #FIXME: conversation still going on without interruption
-        else:
-            print("Topic: ", topic)
-            # agent.text_to_speech(f"Great! Let's discuss about the painting: {topic}.")
-            found_topic = True
-    return topic
-
+# -----------------------------------------------------Specific Handlers for user voice input -----------------------------------
 def topic_handler(user_input, painting_name, current_topic=""):
     """
     Handling multiple user inputs content based on topics:
@@ -191,59 +171,50 @@ def topic_handler(user_input, painting_name, current_topic=""):
     #Parse painting information to gpt
     name, description, style, artist, img_path, artifacts = painting_info['p.name'], painting_info['p.description'], painting_info['p.style'], painting_info['p.artist'], painting_info['p.img'], painting_info['p.artifacts']
 
-    command = user_input.lower()
-    print("User requested topic: ", command)
+    # command = user_input.lower()
+    # print("User requested topic: ", command)
 
-    if VoiceCommand.PaintingInfo.value in command or VoiceCommand.PaintingStory.value in command:
-        current_topic = "story"
+    if current_topic == "story":
+        print("Handling Painting Story in topic handler...")
+        # current_topic = "story"
         context = f"Painting Name: {name}, Description: {description}, Artist: {artist}"
-    elif VoiceCommand.PaintingStyle.value in command:
-        current_topic = "style"
+    elif current_topic == "style":
+        print("Handling Painting Style in topic handler...")
+        # current_topic = "style"
         context = f"Painting Name: {name}, Style: {style}, Artist: {artist}"
-    elif VoiceCommand.PaintingArtifact.value in command:
-        current_topic = "artifact"
+    elif current_topic == "artifact":
+        print("Handling Painting Artifacts in topic handler...")
+        # current_topic = "artifact"
         context = f"Painting Name: {name}, Artifacts: {artifacts}"
 
     else:
         # any user input that doesn't match the above cases
-        agent.text_to_speech(VoiceCommand.AgentBridge.value) # asking to discuss
+        print("Handling other topic in topic handler...")
+        agent.text_to_speech(VoiceCommand.AgentTopicError.value)
+        agent.text_to_speech(VoiceCommand.AgentTopicFollowUp.value)
         context = f"Painting Name: {name}, Description: {description}, Style: {style}, Artist: {artist}, Artifacts: {artifacts}"
-    
-    agent.text_to_speech(f"I'm intrigued, what do you see from the painting. Are there any special thing about its {current_topic} interest you?")
 
-    return context, img_path, user_input, current_topic
+    return context, img_path, user_input, current_topic, artifacts
 
-def artifact_handler(painting_name):
+def artifact_handler(painting_name, painting_artifacts):
     """
     Handling user input for artifacts
     """
-    # Agent LIST all artifacts from the painting
-    painting_artifacts = kg.get_artifacts_by_painting(painting_name)
-    print("Painting Artifacts from graph: ", painting_artifacts)
-    
-    agent.text_to_speech(f"Here are the artifacts I found from the painting: {painting_name}")
-
-    for artifact in painting_artifacts:
-        agent.text_to_speech(f"Artifact: {artifact['a.name']}")
-    
-    # asking user about artifact
-    agent.text_to_speech(VoiceCommand.AgentArtifact.value) #what artifact would you like to know?
-    
-    user_input = agent.speech_to_text().lower() #expected artifact name
-    print("User input artifact name: ", user_input)
-
-    artifact_name = match_artifact_name(user_input) #match artifact name
-
-    if artifact_name == "":
-        agent.text_to_speech(VoiceCommand.AgentTopicError.value)
+    if len(painting_artifacts) == 0:
+        agent.text_to_speech(f"Sorry, I couldn't find any artifacts from this painting: {painting_name}.")
         return
-    else:
-        print("Found Artifact Name: ", artifact_name)
-        artifact_info = kg.get_specific_artifact(artifact_name)[0]
+    else: 
+        agent.text_to_speech(f"Here are the artifacts I found from the painting: \"{painting_name}\"")
+        for artifact in painting_artifacts:
+            agent.text_to_speech(f"Artifact: {artifact['a.name']}")
 
-        if artifact_info == "":
-            agent.text_to_speech(f"Sorry, I couldn't find the information about this artifact: {artifact_name}.")
-            return
+    artifact_name = ask_artifact(agent) #ask user about artifact
+    
+    artifact_info = kg.get_specific_artifact(artifact_name)[0]
+
+    if artifact_info == "":
+        agent.text_to_speech(f"Sorry, I couldn't find the information about this artifact: {artifact_name}.")
+        return
     
     agent.text_to_speech(f"Great! I found the information about the artifact: {artifact_name} of this painting. Let's discuss about it.")
     agent.text_to_speech(f"What is your interest about this {artifact_name} artifact? Any thing from this artifact intrigued you? ")
@@ -255,22 +226,31 @@ def artifact_handler(painting_name):
 def command_handler(user_input):
     """
     Command handler for user input - Using for handling specific user command:
-    - Start, Stop, End, Next
+    - Start, 
+    - Stop, 
+    - End, 
+    - Next
+    - Repeat,
+    - Summary
     """
     if VoiceCommand.End.value in user_input:
-        print("User saying goodbye")
-        agent.text_to_speech(VoiceCommand.AgentGoodbye.value)
+        print("----User saying goodbye----")
         return "goodbye"
     
     elif VoiceCommand.Stop.value in user_input:
-        print("User stop the conversation")
-        agent.text_to_speech(VoiceCommand.AgentStop.value)
+        print("----User stop the conversation----")
         return "stop"
     
     elif VoiceCommand.Topic.value in user_input:
-        print("User want to discuss another topic")
-        agent.text_to_speech(VoiceCommand.AgentTopic.value)
+        print("----User want to discuss another topic----")
         return "next"
+    
+    elif VoiceCommand.Repeat.value in user_input:
+        return "repeat"
+
+    elif VoiceCommand.Summary.value in user_input:
+        return "summary"
+
     else:
         return ""
 

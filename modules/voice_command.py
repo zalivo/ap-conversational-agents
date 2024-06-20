@@ -11,6 +11,9 @@ class VoiceCommand(Enum):
     End = "goodbye"
     Topic = "topic"
     Info = "info"
+    Next = "next"
+    Repeat = "repeat"
+    Summary = "summary"
 
     #basic response
     No = "No."
@@ -30,10 +33,12 @@ class VoiceCommand(Enum):
     AgentGreeting = "Hi there! "
     AgentSorry = "Sorry, I don't understand. Can you repeat that?"
     AgentOk = "Ok."
-    AgentStop = "Ok. Enough for this topic now. If you want to: - discuss about another topic of the same painting - say 'next topic' \n otherwise say 'goodbye'."	
-    AgentGoodbye = "Great to talk to you. Goodbye!"
+    AgentStop = "Ok. Enough for this topic now. If you want to: - discuss about another topic of the same painting - say 'next topic'."	
+    AgentGoodbye = "Great to have a conversation with you. Goodbye!"
+
+    #Agent speech for topic discussion
     AgentGuide = "I can help you with information about the painting or artifacts it have. These are something you can ask: \n- Painting story \n- Painting style \n - or Artifacts in the painting."
-    AgentBridge = "This is interesting to hear. Let's discuss further about it. Can you tell me any specific thing you would like to know about this painting?"
+    AgentBridge = "Can you tell me about what you can see from the painting?"
     AgentPainting = "Let's have some discussion. First of all, can you tell me name of the painting you would like to know about?"
     AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
     AgentArtifact = "Which artifact would you like to know about?"
@@ -41,6 +46,7 @@ class VoiceCommand(Enum):
 
     #Error handling
     AgentPaintingError = "Sorry, I couldn't find the information about this painting..."
-    AgentTopicError = "I'm sorry, I don't have information about this topic"
+    AgentTopicError = "I'm sorry, I don't have information about the topic you mentioned."
+    AgentTopicFollowUp = "But don't worry, let's have an open discussion about this painting."
 
 #--------------------------------------------------

@@ -156,11 +156,30 @@ class VRisper:
         Deactivate the VUI.
         """
         deactivate_input = self.speech_to_text()
-        if deactivate_input == VoiceCommand.End.value:
+        if VoiceCommand.End.value in deactivate_input:
             # self.text_to_speech(VoiceCommand.AgentGoodbye.value)
-            return False
-        else:
             return True
+        else:
+            return False
+    def next_topic(self, next_input):
+        """
+        Next topic of the conversation.
+        """
+        # next_input = self.speech_to_text()
+        if VoiceCommand.Next.value in next_input:
+            return True
+        else:
+            return False
+    
+    def stop_topic(self, stop_input):
+        """
+        Stop the current topic of the dialog.
+        """
+        # stop_input = self.speech_to_text()
+        if VoiceCommand.Stop.value in stop_input:
+            return True
+        else:
+            return False
 
 
 
