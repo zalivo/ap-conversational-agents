@@ -1,85 +1,80 @@
-# # TODO: CONNECT WITH KNOWLEDGE GRAPH AND VUI SYSTEM
-# class ContentHandler:
-#     def __init__(self, username):
-#         self.conversation_history = [] #conversation history
-#         self.username = username #username
-#         self.user_input = None #parsing user input
-#         self.context = None #current content TODO: Connect to the knowledge
-#         self.response = None #parsing response to output
-#         self.topics = []
-    
-#     @property
-#     def input(self):
-#         return self.user_input
-#     @property
-#     def response(self):
-#         return self.response
-#     @property
-#     def current_context(self):
-#         return self.context
+from modules.voice_command import VoiceCommand
+from utils.functions import match_painting_name, match_topic
 
-#     # @property
-#     # def current_topic(self):
-#     #     return self.current_topic
-#     @property
-#     def all_topics(self):
-#         return self.topics
+def ask_painting(agent, user_input):
+    """
+    Agent ask for the painting anme and handling user input
+    This is the internal loop of the dialog, terminated when the painting name is found
+    """
+    found_painting = False
+    painting_name = ""
+    while not found_painting:
+        # user_input = agent.speech_to_text()#painting name
+        print(f"User input painting name:{user_input}")
+        painting_name = match_painting_name(user_input.lower()) #match painting name
+        
+        if painting_name == "":
+            agent.text_to_speech(VoiceCommand.AgentPaintingError.value)
+            agent.text_to_speech(VoiceCommand.AgentPaintingAnother.value) #Can you repeated the painting name?
+            found_painting = False
+            continue
+        else:
+            print("Painting Name: ", painting_name)
+            agent.text_to_speech(f"Great! Let's discuss about the painting: {painting_name}.")
+            found_painting = True
+            break
+        user_input = agent.speech_to_text()#painting name
+    return painting_name
 
-#     def set_content(self, content):
-#         self.content = content
+def ask_topic(agent):
+    """
+    Agent ask for the topic and handling user input
+    This is the internal loop of the dialog, terminated when the topic is found
+    """
+    found_topic = False
+    topic = None
+    while not found_topic:
+        agent.text_to_speech(VoiceCommand.AgentTopic.value) #Can you repeated the painting name?
+        user_input = agent.speech_to_text()#painting name
+        print(f"User input topic:{user_input}")
+        topic = match_topic(user_input.lower()) #match painting name
 
-#     def set_topics(self, topics):
-#         self.topics = topics
+        if topic == None:
+            agent.text_to_speech(VoiceCommand.AgentTopicError.value)
+            continue #FIXME: conversation still going on, asking about other topic
+        else:
+            print("Topic: ", topic)
+            # agent.text_to_speech(f"Great! Let's discuss about the painting: {topic}.")
+            found_topic = True
+    return topic
 
-#     def set_current_topic(self, current_topic):
-#         self.current_topic = current_topic
+def ask_summary(agent):
+    """
+    Agent summary the conversation when user asking about the dialog summary
+    """
+    pass
 
-#     def set_user_input(self, user_input):
-#         self.user_input = user_input
+def ask_artifact(agent):
+    """
+    Agent ask for the artifact name and handling user input
+    This is the internal loop of the dialog, terminated when the artifact name is found
+    """
+    found_artifact = False
+    artifact_name = ""
+        # asking user about artifact
+    while not found_artifact:
+        agent.text_to_speech(VoiceCommand.AgentArtifact.value) #what artifact would you like to know?
+        
+        user_input = agent.speech_to_text().lower() #expected artifact name
+        print("User input artifact name: ", user_input)
 
-#     def set_response(self, response):
-#         self.response = response
+        artifact_name = match_artifact_name(user_input) #match artifact name
 
-#     # CONNECT WITH USER CONTENT INPUT - THROUGH SPEECH RECOGNITION
-#     def activate(self):
-#         if self.user_input == "Hi Vrisper":
-#             self.response = "Hi there! Which topic about the painting would you like to know more about?"
-#             self.current_topic = None
-
-#     def match_topic(self):
-#         """
-#         Match user inputs with some of pre-defined topic in the content.
-#         Activate when user asking about specific topic in the list
-#         """	
-#         if self.user_input in self.topics:
-#             self.response = self.content[self.user_input]
-#             self.previous_topic = self.current_topic
-#             self.current_topic = self.user_input
-#         else:
-#             self.response = "I'm sorry, I don't have information about this topic. Please ask me about another topic."
-#             self.previous_topic = self.current_topic
-#             self.current_topic = None
-
-#     def match_previous_topic(self):
-#         if self.user_input == "previous":
-#             self.response = self.content[self.previous_topic]
-#             self.current_topic = self.previous_topic
-#             self.previous_topic = None
-    
-#     #-----------------------------------------------------------
-
-#     # CONNECT WITH KNOWLEGDE GRAPH - PAINTING CONTENT
-#     def match_content(self, painting_topic):
-#         """
-#         Match the content from the KG, which send to the response
-#         """	
-#         self.previous_topic = self.current_topic
-#         self.current_topic = painting_topic
-#         self.response = self.content[painting_topic]
-
-#     def exit(self):
-#         if self.user_input == "Ok. Goodbye.":
-#             self.response = "Goodbye!"
-#             self.previous_topic = self.current_topic
-#             self.current_topic = None
-
+        if artifact_name == "":
+            agent.text_to_speech(VoiceCommand.AgentTopicError.value)
+            return
+        else:
+            print("Found Artifact Name: ", artifact_name)
+            agent.text_to_speech(f"I found the artifact: {artifact_name}.Let's discuss about it.")
+            found_artifact = True
+    return artifact_name
