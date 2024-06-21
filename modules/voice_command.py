@@ -6,7 +6,8 @@ class VoiceCommand(Enum):
     - content specific request for conversation
     - default agent speech 
     """
-    Start = "Hi, Lisa."
+    # Start = "Hi, Lisa."
+    Start = "Hi, Sarah"
     Stop = "stop"
     End = "goodbye"
     Topic = "topic"

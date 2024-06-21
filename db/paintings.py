@@ -18,8 +18,8 @@ def create_graph(graph):
         p1 = Node("Painting", 
             name="King Caspar",
             year="1654",
-            description="Legend has it that one of the three magi who came to worship the Christ child was an African. Sometimes he is called Caspar, sometimes Balthasar. Heerschop painted him without surroundings or story. He can only be identified from his expensive clothes and the jar of incense he gave as his gift. But it is the man’s face that attracts the most attention; he looks at us proudly and self-confidently.", 
-            style="Oil on panel", 
+            description="The painting represents one of the three magi who came to worship the Christ child. The three magi, additionally known as the three wisemen visited Jesus, bearing precious gift in celebration of his birth. Caspar, the second oldest magi, gifted the golden vessel filled with incense as to represent Jesus' deity. In the bible the magi were referred to as the 'men who study the stars', and believed to be astrologers who predicted the birth of Jesus by their ability to read the messages that were hidden in the sky. Sometimes he is called Caspar, sometimes Balthasar. Heerschop painted him without surroundings or story. He can only be identified from his expensive clothes and the jar of incense he gave as his gift. But it is the man's face that attracts the most attention; he looks at us proudly and self-confidently. ", 
+            style="Oil on panel. The painting of King Caspar was made using oil paints applied on oak wood panel, known for its durability and little warping when exposed to sunlight. The painting can be seen as a prime example of Haarlem classism, often characterised by a rather naturalistic painting style and depictions of a prosaic or ordinary subject matter.", 
             location="Berlin Museum, Berlin",
             artist="Hendrick Heerschop",
             img="http://www.wikidata.org/entity/Q94997800",
@@ -29,10 +29,10 @@ def create_graph(graph):
         p2 = Node("Painting", 
             name="Head of a Boy in a Turban",
             year="1635",
-            description="Dou was Rembrandt's first pupil. He took up his master's idea of studying black people. The result was this endearing tronie of a young man in a fantasy costume, who looks at us over his shoulder.",
-            style="Oil on panel",
+            description="Dou was Rembrandt's first pupil. He took up his master's idea of studying black people. The painting depicts an endearing tronie of a young boy dressed in a fantasy costume, who looks at us over his shoulder. A tronie was a painting genre commonly used from the 15th until the 17th century and originated from Italy. Such portrait studies depict the bust of a nameless model against a neutral background. Tronies showed great skills of the artist, often used as exercises for the portrayal of age, character and emotion. In the golden age there was a lively market for such exercises, often sold as independent works of art.",
+            style="The painting was made using oil paints applied on panel. The paintings of Gerrit Dou were known for their immense perfection and attention to detail. Additionally, he perfected the light and dark effects also known as Chairoscuro, an Italian painting style where light and shadows are often depicted stronger and more dramatic than they often are in real life. However, his technique eventually lead to a decline in his status as an artist, as his clients did not have the time to pose for an extensive amount of time. ",
             location="Hannover, Landesmuseum",
-            artist="Gerrit Dou",
+            artist="Gerrit Dou, additionally known as Gerard Dou was born in Leiden in 1613 and died in 1675. Although originally apprenticed by his father Douwe Jansz, a glass painter, Gerrit became the first pupil of Rembrandt later on in life. He took up his masters idea of studying people of colour, resulting in tronies such as the one presented here.",
             img="http://www.wikidata.org/entity/Q28940972",
             artifacts=["The Turban", "The white ostrich feather", "The blue garment"]
         )
@@ -40,10 +40,10 @@ def create_graph(graph):
         p3 = Node("Painting",
             name="Portrait of Dom Miguel de Castro",
             year="1643",
-            description="Dom Miguel de Castro makes here a powerful, serious expression. He was a member of the Congolese elite. This portrait was commissioned by the Dutch West India Company. The WIC and the Congolese rulers traded in gold an ivory, but mainly in people. This is why Dom Miguel now is seen as a controversial figure. Dom Miguel wears fashionable European clothes. This is probably the suit he had acquired in Brazil, when he had visited the Dutch colony earlier.",
-            style="Oil on panel",
+            description="Dom Miguel de Castro makes here a powerful, serious expression. He was a member of the Congolese elite. This portrait was commissioned by the Dutch West India Company. The WIC and the Congolese rulers traded in gold an ivory, but mainly in people. This is why Dom Miguel now is seen as a controversial figure. Dom Miguel wears fashionable European clothes. This is probably the suit he had acquired in Brazil, when he had visited the Dutch colony earlier.De Castro was sent as an envoy to the Dutch Republic, asking the Dutch stadtholder for a mediation in a conflict that the Count had with king Garcia II of Congo. The portrait was created during his two week stay in Middelburg as part of six commissioned paints. Two of these additional paintings portraying both of his servants Diego Bemba and Pedro Sunda.",
+            style="The portrait of Dom Miguel de Castro was made using oil paints on oak wood panel. The identification of the base material of the panel lead to the correct attribution of the original painter of the portrait. At the time of its creation oak wood was not readily available in Brazil, indicating that the portrait must have been created somewhere in Europe.",
             location="Statensmuseum for Kunst, Copenhagen",
-            artist="Jeronimus Beckx",
+            artist="Jeronimus Beckx. Originally, the portrait of Dom Miguel de Castro was thought to be created by Albert Eckhout, a Dutch portrait and still life painter. This painting, together with 20 Brazilian paintings by Albert Eckhout were donated to king Frederick III of Denmark, which eventually led to them ending up at the National Gallery of Denmark. Due to these circumstances, the painting was wrongly attributed to Albert Eckhout. It is however currently thought that the portrait was created during Dom Miguel de Castros stay in Middelburg, assumed to be painted by one of the brothers Jasper or Jeronimus Beckx.",
             img="https://open.smk.dk/artwork/iiif/KMS7", # TODO: Any resource from wikidata?
             artifacts=["The red ostrich feather", "The cavalier hat", "The gilt garment"]
         )
@@ -51,7 +51,7 @@ def create_graph(graph):
         p4 = Node("Painting",
             name="Portrait of Pedro Sunda",
             year="1643",
-            description="Pedro Sunda holds an elephant’s tusk. Ivory was one of the Congo’s major export products. The status of these young men is unclear. Were they assistants of the noble Dom Miguel or were they enslaved?",
+            description="Pedro Sunda holds an elephant's tusk. Ivory was one of the Congo's major export products. The status of these young men is unclear. Were they assistants of the noble Dom Miguel or were they enslaved?",
             style="Oil on panel",
             location="Statensmuseum for Kunst, Copenhagen",
             artist="Jeronimus Beckx",

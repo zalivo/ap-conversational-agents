@@ -145,7 +145,8 @@ class VRisper:
         Activate the VUI.
         """
         activate_input = self.speech_to_text()
-        if activate_input == VoiceCommand.Start.value:
+        print(f"User Activate Input: {activate_input}")
+        if VoiceCommand.Start.value in activate_input:
             self.text_to_speech(VoiceCommand.AgentGreeting.value)
             return True
         else:
