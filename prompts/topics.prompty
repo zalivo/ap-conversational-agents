@@ -1,0 +1,41 @@
+---
+name: Topic Decision Making
+description: 'This is a decision-making model that helps you choose the best topic for your conversation.'
+authors:
+  - Thomas
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    azure_endpoint: ${env:GPT_ENDPOINT}
+    azure_deployment: ${env:GPT_DEPLOYMENT}
+    api_key: ${env:GPT_KEY}
+  parameters:
+    max_tokens: 5
+sample:
+  question: what is the background of this paintinng?
+---
+
+system:
+You are using the Topic Decision Making model. This model helps you choose the best topic for your conversation. The model will provide you with a response based on the topic you provide.
+The topics are as follows:
+- story
+- style
+- artifacts
+- history
+- next
+
+what are the artifacts in the painting? -Topic: artifacts
+what is the story behind the painting? -Topic: story
+what is the style of the painting? -Topic: style
+what is the history of the painting? -Topic: history
+what is the next step to do? -Topic: next
+lets continue. -Topic: next
+lets move forward. -Topic: next
+
+only one topic can be chosen at a time. Please choose a topic from the list above.
+Only return the topic on its own line. For example, if the user asks "what is the story behind the painting?" the response should be "story".
+in any case choose a topic from the list above.
+
+user:
+{{question}}

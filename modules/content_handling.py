@@ -1,5 +1,70 @@
 from modules.voice_command import VoiceCommand
 from utils.functions import match_painting_name, match_topic
+from modules.knowledge import PaintingsKnowledge
+import os
+from dotenv import load_dotenv
+
+load_dotenv('.env')
+
+kg = PaintingsKnowledge(
+    uri=os.getenv('NEO4J_URI'), 
+    user=os.getenv('NEO4J_USER'), 
+    password=os.getenv('NEO4J_PASSWORD')
+)
+
+def get_all_info(painting_name):
+    """
+    Get all information about the painting including the full information of the artifacts
+    by getting each artifact information by artifact name
+    """
+    all_info = {}
+    painting_info = kg.get_specific_painting(painting_name)[0]
+    
+    for key, value in painting_info.items():
+        all_info[key] = value
+        if key == "p.artifacts":
+            #list of artifacts name
+            # all_info['p.artifacts'] = {
+            #     "artifact1_name": "artifact1_description",
+            #     "artifact2_name": "artifact2_description",
+            #     ...
+            # }
+            for artifact_name in value:
+                artifact_info = kg.get_specific_artifact(artifact_name)[0]
+                print("Artifact Info: ", artifact_info)
+                # restructuring the artifacts information
+                all_info['p.artifacts'][artifact_info['a.name']] = artifact_info['a.description'] 
+
+    print(f"All Info of the painting {painting_name}: {all_info}")
+
+    return all_info
+
+def painting_handler(painting_info):
+    """
+    Handle the painting information.
+    Convert the information from KG into context and image path
+    """
+
+    context = f'''
+    The painting is called "{painting_info['p.name']}". 
+    It was created by {painting_info['p.artist']} in {painting_info['p.year']}.
+    The painting style is {painting_info['p.style']}.
+    The painting story is {painting_info['p.description']}. 
+    And in the painting, it contains the following artifacts: {painting_info['p.artifacts']}
+    '''
+    img_path = painting_info['p.img']
+    return context, img_path
+
+def response_handler(agent, response):
+    """
+    Handle the special response token from the agent
+    so it can trigger the agent to do the specific action
+    """
+    action_enabled = False
+
+    if VoiceCommand.Stop.value in response:
+        
+        return 
 
 def ask_painting(agent, user_input):
     """
@@ -47,12 +112,6 @@ def ask_topic(agent):
             # agent.text_to_speech(f"Great! Let's discuss about the painting: {topic}.")
             found_topic = True
     return topic
-
-def ask_summary(agent):
-    """
-    Agent summary the conversation when user asking about the dialog summary
-    """
-    pass
 
 def ask_artifact(agent):
     """

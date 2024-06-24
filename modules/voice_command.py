@@ -6,15 +6,17 @@ class VoiceCommand(Enum):
     - content specific request for conversation
     - default agent speech 
     """
-    # Start = "Hi, Lisa."
+    # match with user input
     Start = "Hi, Sarah"
-    Stop = "stop"
-    End = "goodbye"
-    Topic = "topic"
-    Info = "info"
-    Next = "next"
-    Repeat = "repeat"
-    Summary = "summary"
+    
+
+    # match with agent response
+    NextTopic = "NEXT_TOPIC"
+    Stop = "STOP"
+    NextPainting = "NEXT_PAINTING"
+    Summary = "SUMMARY"
+    End = "END"
+    # Repeat = "repeat"
 
     #basic response
     No = "No."
