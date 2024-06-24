@@ -114,7 +114,13 @@ class VRisper:
         except Exception as err:
             print(f"Error displaying image: {err}")
     
-    def get_oai_response(self, context="", user_input="", prompt_path="prompts/basic.prompty", image_path="", topic="", conversation_history=[]):
+    def get_oai_response(self, 
+        context="", 
+        user_input="", 
+        prompt_path="prompts/basic.prompty", 
+        image_path="", 
+        # topic="", 
+        conversation_history=[]):
         """
         Function that get the response from the OpenAI model.
         using the custom prompt. 
@@ -131,7 +137,7 @@ class VRisper:
                 context = context,
                 question = user_input,
                 image = image_path,
-                topic = topic,
+                # topic = topic,
                 conversation_history = conversation_history
             )
             # self.voice_response = oai_response
