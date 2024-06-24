@@ -15,10 +15,10 @@ model:
 sample:
   firstName: Thomas
   context: >
-    I am blind. try to describe the painting in telling story about an art so that I can understand and visual it better.
-  question: Can you describe the painting in detail?
+    The Olive Trees is an 1889 painting by Vincent van Gogh. It is one of the paintings he made in Saint-Rémy-de-Provence, in southern France, while he was recovering from an illness. The painting is dominated by the swirling patterns of the olive tree branches, set against a vivid blue sky. The painting is housed in the Museum of Modern Art in New York City.
+  question: ok, thank you thats all
   image: https://th.bing.com/th/id/R.842fb9a1885e50a762ef352821d9078d?rik=ykwt7kPK%2f3ngFA&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2fe%2fe8%2fVan_Gogh_The_Olive_Trees..jpg&ehk=o8ZPcWcu3H0Vdk%2b2E5YJ63CXJSSHb3BFrzKL3UG5HOU%3d&risl=1&pid=ImgRaw&r=0
-  topic: story
+  #artifacts: artifactInformation
 
 ---
 
@@ -32,20 +32,27 @@ Do not provide information long and irrelevant to the topic, keep your responses
 Try to ask open-ended questions relate to the topic as much as possible to engage the user in a conversation. 
 Only use the information related to the topic provided in the context and the image, do not use any external information.
 
+try to cover the following topics in your conversation:
+- The painting's story/history
+- The painting's style
+- The painting's colors
+- The painting's artifacts
+
+if the user asks to continue to the next painting add this to your answer:
+#####NEXT_PAINTING#####
+
+if the user asks to leave make a friendly goodbye and end the conversation by adding this to your answer:
+#####END#####
+
 # Customer
 You are helping {{firstName}} to find answers to their questions.
-Use their name to address them in your responses.
-
-# Context
-Use the following context to provide a more personalized response:
-{{context}}
 
 # Painting
 {{image}}
 
-# Topic
-Using the following topic to provide a more personalized response, and the response should be aligned with the topic only:
-{{topic}}
+# Painting Context
+Use the following context to provide a more personalized response:
+{{context}}
 
 # Conversation History
 {{conversation_history}}

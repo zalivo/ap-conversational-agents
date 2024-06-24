@@ -34,10 +34,10 @@ def ask_topic(agent):
     found_topic = False
     topic = None
     while not found_topic:
-        agent.text_to_speech(VoiceCommand.AgentTopic.value) #Can you repeated the painting name?
+        #agent.text_to_speech(VoiceCommand.AgentTopic.value) #Can you repeated the painting name?
         user_input = agent.speech_to_text()#painting name
         print(f"User input topic:{user_input}")
-        topic = match_topic(user_input.lower()) #match painting name
+        #topic = match_topic(user_input.lower()) #match painting name
 
         if topic == None:
             agent.text_to_speech(VoiceCommand.AgentTopicError.value)
