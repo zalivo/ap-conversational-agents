@@ -141,7 +141,6 @@ class VRisper:
                 conversation_history = conversation_history
             )
             # self.voice_response = oai_response
-            print(f"OpenAI response: {oai_response}")
             return oai_response
         except Exception as ex:
             print(f"Error getting OpenAI response: {ex}")
@@ -162,8 +161,9 @@ class VRisper:
         """
         Deactivate the VUI.
         """
+        print("Listening for deactivation...")
         deactivate_input = self.speech_to_text()
-        if VoiceCommand.End.value in deactivate_input:
+        if "goodbye" in deactivate_input:
             # self.text_to_speech(VoiceCommand.AgentGoodbye.value)
             return True
         else:

@@ -11,11 +11,11 @@ class VoiceCommand(Enum):
     
 
     # match with agent response
-    NextTopic = "NEXT_TOPIC"
-    Stop = "STOP"
-    NextPainting = "NEXT_PAINTING"
-    Summary = "SUMMARY"
-    End = "END"
+    NextTopic = "#####NEXT#####"
+    Stop = "#####STOP#####"
+    NextPainting = "#####NEXT_PAINTING#####"
+    Summary = "#####SUMMARY#####"
+    End = "#####END#####"
     # Repeat = "repeat"
 
     #basic response
@@ -40,9 +40,9 @@ class VoiceCommand(Enum):
     AgentGoodbye = "Great to have a conversation with you. Goodbye!"
 
     #Agent speech for topic discussion
-    AgentGuide = "I can help you with information about the painting or artifacts it have. These are something you can ask: \n- Painting story \n- Painting style \n - or Artifacts in the painting."
+    AgentGuide = "I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in."
     AgentBridge = "Can you tell me about what you can see from the painting?"
-    AgentPainting = "Let's have some discussion. First of all, can you tell me name of the painting you would like to know about?"
+    AgentPainting = "Let's have some discussion. Can you tell me name of the painting you would like to know about?"
     AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
     AgentArtifact = "Which artifact would you like to know about?"
     AgentTopic = "Here are some topics you might interest: Painting Style, Painting Color, Story, or Artifacts of the painting. Are there anything you would like to know?"
