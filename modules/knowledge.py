@@ -44,7 +44,7 @@ class PaintingsKnowledge:
         """
         with self._driver.session() as session:
             result = session.run(
-                "MATCH (p:Painting {name: $name}) RETURN p.name, p.description, p.style, p.artist, p.img, p.artifacts",
+                "MATCH (p:Painting {name: $name}) RETURN p.name, p.year, p.description, p.style, p.location, p.artist, p.img, p.artifacts",
                 name=name
             )
             self.info = [dict(record) for record in result.data()]

@@ -12,32 +12,32 @@ kg = PaintingsKnowledge(
     password=os.getenv('NEO4J_PASSWORD')
 )
 
-def get_all_info(painting_name):
-    """
-    Get all information about the painting including the full information of the artifacts
-    by getting each artifact information by artifact name
-    """
-    all_info = {}
-    painting_info = kg.get_specific_painting(painting_name)[0]
+# def get_all_info(painting_name):
+#     """
+#     Get all information about the painting including the full information of the artifacts
+#     by getting each artifact information by artifact name
+#     """
+#     all_info = {}
+#     painting_info = kg.get_specific_painting(painting_name)[0]
     
-    for key, value in painting_info.items():
-        all_info[key] = value
-        if key == "p.artifacts":
-            #list of artifacts name
-            # all_info['p.artifacts'] = {
-            #     "artifact1_name": "artifact1_description",
-            #     "artifact2_name": "artifact2_description",
-            #     ...
-            # }
-            for artifact_name in value:
-                artifact_info = kg.get_specific_artifact(artifact_name)[0]
-                print("Artifact Info: ", artifact_info)
-                # restructuring the artifacts information
-                all_info['p.artifacts'][artifact_info['a.name']] = artifact_info['a.description'] 
+#     for key, value in painting_info.items():
+#         all_info[key] = value
+#         if key == "p.artifacts":
+#             #list of artifacts name
+#             # all_info['p.artifacts'] = {
+#             #     "artifact1_name": "artifact1_description",
+#             #     "artifact2_name": "artifact2_description",
+#             #     ...
+#             # }
+#             for artifact_name in value:
+#                 artifact_info = kg.get_specific_artifact(artifact_name)[0]
+#                 print("Artifact Info: ", artifact_info)
+#                 # restructuring the artifacts information
+#                 all_info['p.artifacts'][artifact_info['a.name']] = artifact_info['a.description'] 
 
-    print(f"All Info of the painting {painting_name}: {all_info}")
+#     print(f"All Info of the painting {painting_name}: {all_info}")
 
-    return all_info
+#     return all_info
 
 def painting_handler(painting_info):
     """
@@ -82,13 +82,15 @@ def ask_painting(agent, user_input):
             agent.text_to_speech(VoiceCommand.AgentPaintingError.value)
             agent.text_to_speech(VoiceCommand.AgentPaintingAnother.value) #Can you repeated the painting name?
             found_painting = False
+            
+            user_input = agent.speech_to_text()#painting name
             continue
         else:
             print("Painting Name: ", painting_name)
             agent.text_to_speech(f"Great! Let's discuss about the painting: {painting_name}.")
             found_painting = True
             break
-        user_input = agent.speech_to_text()#painting name
+        
     return painting_name
 
 def ask_topic(agent):
