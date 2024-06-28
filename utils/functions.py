@@ -1,8 +1,9 @@
 paintings_mapping = {
     "king": "King Caspar",
     "boy": "Head of a Boy in a Turban",
-    "dom": "Portrait of Dona Isabel de Porcel",
-    "pedro": "Portrait of Pedro de Alvarado",
+    "dom": "Portrait of Dom Miguel de Castro",
+    "pedro": "Portrait of Pedro Sunda",
+    "diego": "Portrait of Diego Bamba",
 }
 artifacts_mapping = {
     "pot": "Incense Pot",
