@@ -114,7 +114,13 @@ class VRisper:
         except Exception as err:
             print(f"Error displaying image: {err}")
     
-    def get_oai_response(self, context="", user_input="", prompt_path="prompts/basic.prompty", image_path="", topic="", conversation_history=[]):
+    def get_oai_response(self, 
+        context="", 
+        user_input="", 
+        prompt_path="prompts/basic.prompty", 
+        image_path="", 
+        # topic="", 
+        conversation_history=[]):
         """
         Function that get the response from the OpenAI model.
         using the custom prompt. 
@@ -131,11 +137,10 @@ class VRisper:
                 context = context,
                 question = user_input,
                 image = image_path,
-                topic = topic,
+                # topic = topic,
                 conversation_history = conversation_history
             )
             # self.voice_response = oai_response
-            print(f"OpenAI response: {oai_response}")
             return oai_response
         except Exception as ex:
             print(f"Error getting OpenAI response: {ex}")
@@ -145,7 +150,8 @@ class VRisper:
         Activate the VUI.
         """
         activate_input = self.speech_to_text()
-        if activate_input == VoiceCommand.Start.value:
+        print(f"User Activate Input: {activate_input}")
+        if VoiceCommand.Start.value in activate_input:
             self.text_to_speech(VoiceCommand.AgentGreeting.value)
             return True
         else:
@@ -155,12 +161,32 @@ class VRisper:
         """
         Deactivate the VUI.
         """
+        print("Listening for deactivation...")
         deactivate_input = self.speech_to_text()
-        if deactivate_input == VoiceCommand.End.value:
+        if "goodbye" in deactivate_input:
             # self.text_to_speech(VoiceCommand.AgentGoodbye.value)
-            return False
-        else:
             return True
+        else:
+            return False
+    def next_topic(self, next_input):
+        """
+        Next topic of the conversation.
+        """
+        # next_input = self.speech_to_text()
+        if VoiceCommand.Next.value in next_input:
+            return True
+        else:
+            return False
+    
+    def stop_topic(self, stop_input):
+        """
+        Stop the current topic of the dialog.
+        """
+        # stop_input = self.speech_to_text()
+        if VoiceCommand.Stop.value in stop_input:
+            return True
+        else:
+            return False
 
 
 
