@@ -16,7 +16,7 @@ def create_graph(graph):
     try:
         gallery = Node("Gallery", name="VR Gallery")
         p1 = Node("Painting", 
-            name="King Caspar",
+            name="King Casper",
             year="1654",
             description="The painting represents one of the three magi who came to worship the Christ child. The three magi, additionally known as the three wisemen visited Jesus, bearing precious gift in celebration of his birth. Caspar, the second oldest magi, gifted the golden vessel filled with incense as to represent Jesus' deity. In the bible the magi were referred to as the 'men who study the stars', and believed to be astrologers who predicted the birth of Jesus by their ability to read the messages that were hidden in the sky. Sometimes he is called Caspar, sometimes Balthasar. Heerschop painted him without surroundings or story. He can only be identified from his expensive clothes and the jar of incense he gave as his gift. But it is the man's face that attracts the most attention; he looks at us proudly and self-confidently. ", 
             style="Oil on panel. The painting of King Caspar was made using oil paints applied on oak wood panel, known for its durability and little warping when exposed to sunlight. The painting can be seen as a prime example of Haarlem classism, often characterised by a rather naturalistic painting style and depictions of a prosaic or ordinary subject matter.", 
@@ -58,6 +58,18 @@ def create_graph(graph):
             img="https://open.smk.dk/artwork/iiif/KMS8",
             artifacts=[
                 "The ivory tusk"
+            ]
+        )
+        p5 = Node("Painting",
+            name="Portrait of Diego Bemba",
+            year="1643",
+            description="We know the names of these three men from the inscriptions on the backs of the paintings. This is Diego Bemba. He holds a small casket, probably a diplomatic gift. He was one of Don Miguel de Castro's servants.",
+            style="Oil on panel",
+            location="Statensmuseum for Kunst, Copenhagen",
+            artist="Jeronimus Beckx",
+            img="https://open.smk.dk/artwork/iiif/KMS9",
+            artifacts=[
+                "The diplomatic gift"
             ]
         )
 
@@ -103,12 +115,18 @@ def create_graph(graph):
             name="The ivory tusk", 
             description="Pedro Sunda is shown holding the tusk of an elephant. The material of a tusk, ivory, was deemed very valuable due to its beauty and durability, substantially exported due to its high demand. Additionally, the material was used as a way to craft objects or carve depictions, so called ivories.Throughout history, a tusk as a whole often represented strength and power." 
         )
+        p5a1 = Node("Artifact",
+            name="The diplomatic gift",
+            description="The small casket held by Diego Bemba is assumed to be a diplomatic gift. Such gifts were given by a diplomat or leader as a courtesy when entering a foreign country. A decorative box such as the one presented in the painting, was more than a functional packaging, complemented with artistic elements."
+        )
 
         # Create relationships
         gallery_p1 = Relationship(gallery, "HAS_PAINTING", p1)
         gallery_p2 = Relationship(gallery, "HAS_PAINTING", p2)
         gallery_p3 = Relationship(gallery, "HAS_PAINTING", p3)
         gallery_p4 = Relationship(gallery, "HAS_PAINTING", p4)
+        gallery_p5 = Relationship(gallery, "HAS_PAINTING", p5)
+
         p1_a1 = Relationship(p1, "USES_ARTIFACT", p1a1)
         p1_a2 = Relationship(p1, "USES_ARTIFACT", p1a2)
         p1_a3 = Relationship(p1, "USES_ARTIFACT", p1a3)
@@ -119,6 +137,7 @@ def create_graph(graph):
         p3_a2 = Relationship(p3, "USES_ARTIFACT", p3a2)
         p3_a3 = Relationship(p3, "USES_ARTIFACT", p3a3)
         p4_a1 = Relationship(p4, "USES_ARTIFACT", p4a1)
+        p5_a1 = Relationship(p5, "USES_ARTIFACT", p5a1)
 
         # Merge nodes and relationships into the graph
         #merge paintings
@@ -127,6 +146,8 @@ def create_graph(graph):
         graph.merge(p2, "Painting", "name")
         graph.merge(p3, "Painting", "name")
         graph.merge(p4, "Painting", "name")
+        graph.merge(p5, "Painting", "name")
+
         #merge artifacts
         graph.merge(p1a1, "Artifact", "name")
         graph.merge(p1a2, "Artifact", "name")
@@ -138,10 +159,15 @@ def create_graph(graph):
         graph.merge(p3a2, "Artifact", "name")
         graph.merge(p3a3, "Artifact", "name")
         graph.merge(p4a1, "Artifact", "name")
+        graph.merge(p5a1, "Artifact", "name")
 
+        #merge relationships
         graph.merge(gallery_p1)
         graph.merge(gallery_p2)
         graph.merge(gallery_p3)
+        graph.merge(gallery_p4)
+        graph.merge(gallery_p5)
+
         graph.merge(p1_a1)
         graph.merge(p1_a2)
         graph.merge(p1_a3)
@@ -152,6 +178,7 @@ def create_graph(graph):
         graph.merge(p3_a2)
         graph.merge(p3_a3)
         graph.merge(p4_a1)
+        graph.merge(p5_a1)
 
         print("Graph nodes and relationships created successfully!")
     except Exception as e:
