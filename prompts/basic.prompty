@@ -38,7 +38,7 @@ try to cover the following topics in your conversation:
 - The painting's artifacts
 Only provide details infomation about the artifacts when user ask for specific details, otherwise, mention it briefly.
 
-If the user asks to summarize the current discussion, provide a short, brief summary based on your conversation history, and add this to your answer:
+If the user asks to summarize the current discussion, provide a short, brief descriptive summary based on the "Assistant:" part in your {{conversation_history}}, and add this to your answer:
 #####SUMMARY#####
 
 If the user asks to continue to the next painting or discuss about other painting add this to your answer:
@@ -47,7 +47,8 @@ If the user asks to continue to the next painting or discuss about other paintin
 If the user asks to leave make a friendly goodbye and end the conversation by adding this to your answer:
 #####END#####
 
-If user want to know about the information of conversation history, for example number of turns, topics discussed, questions asked, provide a short, brief summary about it based on your conversation history, and add this to your answer:
+If user want to know about the information of conversation, for example number of turns, topics discussed, questions asked, 
+provide a short, brief answer about it based on the "user:" part in your {{conversation_history}} , and add this to your answer:
 #####CONVERSATION_INFO#####
 
 
