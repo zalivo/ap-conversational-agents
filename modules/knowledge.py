@@ -44,32 +44,36 @@ class PaintingsKnowledge:
         """
         with self._driver.session() as session:
             result = session.run(
-                "MATCH (p:Painting {name: $name}) RETURN p.name, p.description, p.style, p.artist, p.img, p.artifacts",
+                "MATCH (p:Painting {name: $name}) RETURN p.name, p.year, p.description, p.style, p.location, p.artist, p.img, p.artifacts",
                 name=name
             )
             self.info = [dict(record) for record in result.data()]
             return self.info
 
-    def get_specific_artifact(graph, name):
+    def get_specific_artifact(self, name):
         """
             Get specific artifact by name
             return: painting information in dictionary
         """
-        with graph.session() as session:
+        with self._driver.session() as session:
             result = session.run(
-                "MATCH (a:Artifact {name: $name}) RETURN a",
+                "MATCH (a:Artifact {name: $name}) RETURN a.name, a.description",
                 name=name
             )
             self.info = [dict(record) for record in result.data()]
             return self.info
 
-    def get_artifacts_by_painting(graph, name):
-        with graph.session() as session:
+    def get_artifacts_by_painting(self, name):
+        with self._driver.session() as session:
             result = session.run(
-                "MATCH (p:Painting {name: $name})-[:USES_ARTIFACT]->(a:Artifact) RETURN a",
+                "MATCH (p:Painting {name: $name})-[:USES_ARTIFACT]->(a:Artifact) RETURN a.name, a.description",
                 name=name
             )
-            self.info = [dict(record) for record in result.data()]
+            print(f"Artifact found in knowledge graph: {result.data()}")
+            # parse the result to list of dictionary
+            for record in result.data():
+                print(record)
+                self.info.append(record)
             return self.info
 
     def close(self):

@@ -6,11 +6,18 @@ class VoiceCommand(Enum):
     - content specific request for conversation
     - default agent speech 
     """
-    Start = "Hi, Lisa."
-    Stop = "stop"
-    End = "goodbye"
-    Topic = "option"
-    Info = "info"
+    # match with user input
+    Start = "Hi, Sarah"
+    
+
+    # match with agent response
+    NextTopic = "#####NEXT#####"
+    Stop = "#####STOP#####"
+    NextPainting = "#####NEXT_PAINTING#####"
+    Summary = "#####SUMMARY#####"
+    End = "#####END#####"
+    ConversationInfo = "#####CONVERSATION_INFO#####"
+    # Repeat = "repeat"
 
     #basic response
     No = "No."
@@ -18,29 +25,32 @@ class VoiceCommand(Enum):
     Idk = "I don't know."
 
     #Painting related content
-    PaintingInfo = "information"
     PaintingArtifact = "artifact"
-    PaintingColor = "color"
     PaintingStyle = "style"
     PaintingStory = "story"
 
     # Artifact related content
-    ArtifactName= "artifact name"
-    ArtifactInfo = "artifact information"
+    ArtifactName= "name"
+    ArtifactInfo = "information"
 
     #Default agent speech
     AgentGreeting = "Hi there! "
     AgentSorry = "Sorry, I don't understand. Can you repeat that?"
     AgentOk = "Ok."
-    AgentGoodbye = "Great to talk to you. Goodbye!"
-    AgentGuide = "I can help you with information about the painting or artifacts it have. These are something you can ask: \n- Painting info \n- Painting style \n- Painting color \n- story \n- or artifact in the painting." 
-    AgentPainting = "Let's have some discussion. Which painting would you like to know about?"
-    AgentPaintingAnother = "Don't worry. What is the name of the painting you would like to know about?"
-    AgentArtifact = "Great, let's discuss about it. Which artifact would you like to know about?"
+    AgentStop = "Ok. Enough for this topic now. If you want to: - discuss about another topic of the same painting - say 'next topic'."	
+    AgentGoodbye = "Great to have a conversation with you. Goodbye!"
+
+    #Agent speech for topic discussion
+    AgentGuide = "I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in."
+    AgentBridge = "Can you tell me about what you can see from the painting?"
+    AgentPainting = "Let's have some discussion. Can you tell me name of the painting you would like to know about?"
+    AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
+    AgentArtifact = "Which artifact would you like to know about?"
     AgentTopic = "Here are some topics you might interest: Painting Style, Painting Color, Story, or Artifacts of the painting. Are there anything you would like to know?"
-    # AgentTopic = "Here are some topics you might interest: Painting Style, Painting Color, Story, or Artifacts of the painting. Are there anything you would like to know?"
-    # AgentHelp = "I can help you with information about the painting or artifacts it have. Is there anything specific you would like to know?"
-    AgentPaintingError = "I'm sorry, I couldn't find the information about this painting. Is that the correct name?"
-    AgentTopicError = "I'm sorry, I don't have information about this topic. Would you like to discuss about another topic?"
+
+    #Error handling
+    AgentPaintingError = "Sorry, I couldn't find the information about this painting..."
+    AgentTopicError = "I'm sorry, I don't have information about the topic you mentioned."
+    AgentTopicFollowUp = "But don't worry, let's have an open discussion about this painting."
 
 #--------------------------------------------------
