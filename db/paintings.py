@@ -14,9 +14,9 @@ graph = Graph(
 def create_graph(graph):
     # Create nodes
     try:
-        gallery = Node("Gallery", name="VR Gallery")
+        gallery = Node("Gallery", name="Gallery")
         p1 = Node("Painting", 
-            name="King Casper",
+            name="King Caspar",
             year="1654",
             description="The painting represents one of the three magi who came to worship the Christ child. The three magi, additionally known as the three wisemen visited Jesus, bearing precious gift in celebration of his birth. Caspar, the second oldest magi, gifted the golden vessel filled with incense as to represent Jesus' deity. In the bible the magi were referred to as the 'men who study the stars', and believed to be astrologers who predicted the birth of Jesus by their ability to read the messages that were hidden in the sky. Sometimes he is called Caspar, sometimes Balthasar. Heerschop painted him without surroundings or story. He can only be identified from his expensive clothes and the jar of incense he gave as his gift. But it is the man's face that attracts the most attention; he looks at us proudly and self-confidently. ", 
             style="Oil on panel. The painting of King Caspar was made using oil paints applied on oak wood panel, known for its durability and little warping when exposed to sunlight. The painting can be seen as a prime example of Haarlem classism, often characterised by a rather naturalistic painting style and depictions of a prosaic or ordinary subject matter.", 
