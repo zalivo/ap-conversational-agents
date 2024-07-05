@@ -132,12 +132,12 @@ def dialog(
             ongoing_dialog = True
             continue
 
-        elif VoiceCommand.NextTopic.value in response:
-            print("<----Next topic---->")
-            response = response.replace(VoiceCommand.NextTopic.value, "")
+        elif VoiceCommand.ConversationInfo.value in response:
+            print("<----Conversation Info---->")
+            response = response.replace(VoiceCommand.ConversationInfo.value, "")
             agent.text_to_speech(response)
-            ongoing_dialog = False
-            break
+            ongoing_dialog = True
+            continue
 
         elif VoiceCommand.Stop.value in response:
             print("<----Stop the current conversation---->")
