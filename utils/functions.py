@@ -3,7 +3,7 @@ paintings_mapping = {
     "boy": "Head of a Boy in a Turban",
     "castro": "Portrait of Dom Miguel de Castro",
     "pedro": "Portrait of Pedro Sunda",
-    "diego": "Portrait of Diego Bamba",
+    "diego": "Portrait of Diego Bemba",
 }
 artifacts_mapping = {
     "pot": "Incense Pot",
