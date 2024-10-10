@@ -94,7 +94,7 @@ class VRisper:
             
             # Case 1: Audio ready to outputted
             if result.reason == ResultReason.SynthesizingAudioCompleted:
-                print("Speech synthesized for text [{}]".format(text))
+                print("[Sarah]: {}".format(text))
                 self.voice_response = result
             else:
                 print(f"Error synthesizing audio: {result}")
@@ -126,10 +126,10 @@ class VRisper:
         using the custom prompt. 
         Giving the context, question, image and conversation history.
         """
-        print("Getting OpenAI response...")
-        print(f"Prompt Path: {prompt_path} and Image Path: {image_path}")
-        print(f"Context: {context}, User Input: {user_input}")
-        print("-----------------------------------")
+        # print("Getting OpenAI response...")
+        # print(f"Prompt Path: {prompt_path} and Image Path: {image_path}")
+        # print(f"Context: {context}, User Input: {user_input}")
+        # print("-----------------------------------")
         try: 
             flow = Prompty.load(prompt_path) #"../prompts/basic.prompty"
             oai_response = flow(
@@ -150,7 +150,7 @@ class VRisper:
         Activate the VUI.
         """
         activate_input = self.speech_to_text()
-        print(f"User Activate Input: {activate_input}")
+        print(f"[User activate]: {activate_input}")
         if VoiceCommand.Start.value in activate_input:
             self.text_to_speech(VoiceCommand.AgentGreeting.value)
             return True

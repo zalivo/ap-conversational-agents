@@ -27,7 +27,7 @@ def match_painting_name(user_input):
     """
     Match the user input with the list of key in the painting name mapping.
     """
-    print("Painting name to match: ", user_input)
+    # print("Painting name to match: ", user_input)
     for name in paintings_mapping.keys():
         if name in user_input:
             return paintings_mapping[name] # return the full name

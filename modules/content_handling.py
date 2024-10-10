@@ -75,7 +75,7 @@ def ask_painting(agent, user_input):
     painting_name = ""
     while not found_painting:
         # user_input = agent.speech_to_text()#painting name
-        print(f"User input painting name:{user_input}")
+        print(f"[User]:{user_input}")
         painting_name = match_painting_name(user_input.lower()) #match painting name
         
         if painting_name == "":
@@ -86,7 +86,7 @@ def ask_painting(agent, user_input):
             user_input = agent.speech_to_text()#painting name
             continue
         else:
-            print("Painting Name: ", painting_name)
+            # print("Painting Name: ", painting_name)
             agent.text_to_speech(f"Great! Let's discuss about the painting: {painting_name}.")
             found_painting = True
             break

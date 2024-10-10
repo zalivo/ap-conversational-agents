@@ -123,7 +123,7 @@ def dialog(
             Assistant: {response}
             '''
         )
-        print("[Sarah]: ", response)
+        # print("[Sarah]: ", response)
 
         if VoiceCommand.Summary.value in response:
             print("<----Summary the current topic---->")
@@ -175,7 +175,7 @@ def get_all_info(painting_name):
     """
     all_info = {}
     painting_info = kg.get_specific_painting(painting_name)[0]
-    print("Painting Info: ", painting_info)
+    # print("Painting Info: ", painting_info)
     for key, value in painting_info.items():
         all_info[key] = value
         if key == "p.artifacts":
@@ -191,7 +191,7 @@ def get_all_info(painting_name):
                 print("Artifact Info: ", artifact_info)
                 all_info['p.artifacts'][artifact_info['a.name']] = artifact_info['a.description'] 
 
-    print(f"All Info of the painting {painting_name}: {all_info}")
+    # print(f"All Info of the painting {painting_name}: {all_info}")
 
     return all_info
 

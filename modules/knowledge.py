@@ -69,7 +69,6 @@ class PaintingsKnowledge:
                 "MATCH (p:Painting {name: $name})-[:USES_ARTIFACT]->(a:Artifact) RETURN a.name, a.description",
                 name=name
             )
-            print(f"Artifact found in knowledge graph: {result.data()}")
             # parse the result to list of dictionary
             for record in result.data():
                 print(record)
