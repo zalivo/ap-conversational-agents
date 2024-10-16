@@ -6,6 +6,7 @@ import json
 
 #import resource
 # import azure.cognitiveservices.speech as speechsdk
+import azure.cognitiveservices.speech as speechsdk
 from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer,SpeechRecognizer, AudioConfig, ResultReason
 from azure.cognitiveservices.speech.audio import AudioOutputConfig
 from openai import AzureOpenAI
@@ -97,7 +98,7 @@ class VRisper:
                 print("[Sarah]: {}".format(text))
                 self.voice_response = result
             else:
-                print(f"Error synthesizing audio: {result}")
+                print(f"Error synthesizing audio: {result.reason}")
             
             return result
         except Exception as ex:

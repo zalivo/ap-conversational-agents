@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 class VoiceCommand(Enum):
     """
     Specific Voice Command moderate by 3 types: 
@@ -41,7 +42,8 @@ class VoiceCommand(Enum):
     AgentGoodbye = "Great to have a conversation with you. Goodbye!"
 
     #Agent speech for topic discussion
-    AgentGuide = "I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in."
+    AgentGuide = ["I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in.",
+                  "hey", "your mom", "your dad"]
     AgentBridge = "Can you tell me about what you can see from the painting?"
     AgentPainting = "Let's have some discussion. Can you tell me name of the painting you would like to know about?"
     AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
@@ -52,5 +54,12 @@ class VoiceCommand(Enum):
     AgentPaintingError = "Sorry, I couldn't find the information about this painting..."
     AgentTopicError = "I'm sorry, I don't have information about the topic you mentioned."
     AgentTopicFollowUp = "But don't worry, let's have an open discussion about this painting."
+
+    @classmethod
+    def get_random(cls, command):
+        """
+        Method to get a random value from a list of possible values for a specific command.
+        """
+        return random.choice(command.value) if isinstance(command.value, list) else command.value
 
 #--------------------------------------------------

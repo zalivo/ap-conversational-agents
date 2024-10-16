@@ -55,7 +55,7 @@ def create_graph(graph):
             style="Oil on panel",
             location="Statensmuseum for Kunst, Copenhagen",
             artist="Jeronimus Beckx",
-            img="https://open.smk.dk/artwork/iiif/KMS8",
+            img="https://open.smk.dk/artwork/iiif/KMS8",  # TODO: Add resource from wikidata: https://www.wikidata.org/wiki/Q20380797
             artifacts=[
                 "The ivory tusk"
             ]
@@ -67,7 +67,7 @@ def create_graph(graph):
             style="Oil on panel",
             location="Statensmuseum for Kunst, Copenhagen",
             artist="Jeronimus Beckx",
-            img="https://open.smk.dk/artwork/iiif/KMS9",
+            img="https://open.smk.dk/artwork/iiif/KMS9", # TODO: Add resource from wikidata: https://www.wikidata.org/wiki/Q20441032
             artifacts=[
                 "The diplomatic gift"
             ]

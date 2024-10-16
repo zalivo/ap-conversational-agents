@@ -20,7 +20,7 @@ def conversation():
     """
     Entire Conversation, including multiple dialog from user and agent
     """
-    activated = agent.activate() #activate "Hi Lisa."
+    activated = agent.activate() #activate "Hi Sarah."
     print("Activated: ", activated)
     ongoing_conversation = True
 
@@ -31,7 +31,8 @@ def conversation():
     
     # intialise conversation
     if VoiceCommand.AgentGuide.name not in command_history:
-        agent.text_to_speech(VoiceCommand.AgentGuide.value)
+        agent_guide = VoiceCommand.get_random(VoiceCommand.AgentGuide)
+        agent.text_to_speech(agent_guide)
         #add command to history
         command_history.append(VoiceCommand.AgentGuide.name)
 
@@ -42,6 +43,8 @@ def conversation():
     
     while ongoing_conversation:
         print(f"ONGOING CONVERSATION... {ongoing_conversation}")
+        #change VoiceCommand.AgentPainting.value to a different value so VI can choose from the paintings to start the conversation
+        # IVO: CHANGE
         if current_painting == "":
             agent.text_to_speech(VoiceCommand.AgentPainting.value)
         # else:
