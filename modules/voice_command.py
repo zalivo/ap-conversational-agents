@@ -36,6 +36,7 @@ class VoiceCommand(Enum):
 
     #Default agent speech
     AgentGreeting = "Hi there! "
+    AgentIntroducion = "My name is Sarah and I'll be your guide in exploring five paintings from the exhibition called HERE: BLack in Rembrandt's Time. If anything catches your interest while we talk, please don't hesitate to ask."
     AgentSorry = "Sorry, I don't understand. Can you repeat that?"
     AgentOk = "Ok."
     AgentStop = "Ok. Enough for this topic now. If you want to: - discuss about another topic of the same painting - say 'next topic'."	
@@ -44,11 +45,11 @@ class VoiceCommand(Enum):
     #Agent speech for topic discussion
     AgentGuide = ["I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in.",
                   "hey", "your mom", "your dad"]
-    AgentBridge = "Can you tell me about what you can see from the painting?"
-    AgentPainting = "Let's have some discussion. Can you tell me name of the painting you would like to know about?"
+    AgentBridge = "Can you tell me about what you can see from the painting?" # TODO FIX Maybe use AgentTopic instead?
+    AgentPainting = "I can provide more information about the following paintings, let me know about which would you like to talk about: King Caspar, Head of a Boy in a Turban, Portrait of Dom Miguel de Castro or Portrait of Pedro Sunda?" # List the paintings they can talk about
     AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
-    AgentArtifact = "Which artifact would you like to know about?"
-    AgentTopic = "Here are some topics you might interest: Painting Style, Painting Color, Story, or Artifacts of the painting. Are there anything you would like to know?"
+    AgentArtifact = "Which artifact in the painting would you like to know more about?"
+    AgentTopic = "Here are some topics I can provide more information about: Painting Style, Painting Color, Story, or Artifacts of the painting. Did any of them catch you interest?"
 
     #Error handling
     AgentPaintingError = "Sorry, I couldn't find the information about this painting..."

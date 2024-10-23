@@ -5,7 +5,6 @@ import requests
 import json
 
 #import resource
-# import azure.cognitiveservices.speech as speechsdk
 import azure.cognitiveservices.speech as speechsdk
 from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer,SpeechRecognizer, AudioConfig, ResultReason
 from azure.cognitiveservices.speech.audio import AudioOutputConfig
@@ -152,11 +151,11 @@ class VRisper:
         """
         activate_input = self.speech_to_text()
         print(f"[User activate]: {activate_input}")
-        if VoiceCommand.Start.value in activate_input:
-            self.text_to_speech(VoiceCommand.AgentGreeting.value)
+        if isinstance(activate_input, str) and VoiceCommand.Start.value in activate_input:
+            self.text_to_speech(VoiceCommand.AgentGreeting.value)  # TODO: Change to random value
             return True
         else:
-            self.text_to_speech(VoiceCommand.AgentSorry.value)
+            self.text_to_speech(VoiceCommand.AgentSorry.value)  # TODO: Change to random value
             return False
     def deactivate(self):
         """

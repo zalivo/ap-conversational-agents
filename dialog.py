@@ -31,10 +31,9 @@ def conversation():
     
     # intialise conversation
     if VoiceCommand.AgentGuide.name not in command_history:
-        agent_guide = VoiceCommand.get_random(VoiceCommand.AgentGuide)
-        agent.text_to_speech(agent_guide)
+        agent.text_to_speech(VoiceCommand.AgentIntroducion.value)
         #add command to history
-        command_history.append(VoiceCommand.AgentGuide.name)
+        command_history.append(VoiceCommand.AgentIntroducion.name)
 
 
     current_painting = ""
@@ -43,15 +42,13 @@ def conversation():
     
     while ongoing_conversation:
         print(f"ONGOING CONVERSATION... {ongoing_conversation}")
-        #change VoiceCommand.AgentPainting.value to a different value so VI can choose from the paintings to start the conversation
-        # IVO: CHANGE
+        #TODO VoiceCommand.AgentPainting.value to a different value so VI can choose from the paintings to start the conversation
+        # TODO IVO: CHANGE
         if current_painting == "":
             agent.text_to_speech(VoiceCommand.AgentPainting.value)
         # else:
         #     agent.text_to_speech(f"We are discussing about the painting: {current_painting}.")
 
-
-        
         # Started: "Which painting would you like to know about?"
         user_input = agent.speech_to_text()
         print("User input conversation: ", user_input)
@@ -60,7 +57,6 @@ def conversation():
         current_painting = painting_name #assign the current painting with current painting name
         print("Current Painting: ", painting_name)
     
-
         #FIXME: Directly get the painting information
         painting_info = get_all_info(painting_name)
         print("Painting Info: ", painting_info)
@@ -107,7 +103,7 @@ def dialog(
     ongoing_dialog = True  
     conversation_continue = True
 
-    agent.text_to_speech(VoiceCommand.AgentBridge.value) # asking to discuss
+    agent.text_to_speech(VoiceCommand.AgentTopic.value) # asking to discuss AgentBridge before
 
     while ongoing_dialog:
         user_input = agent.speech_to_text()
@@ -157,6 +153,12 @@ def dialog(
             current_painting = ""
             conversation_continue = True
             return current_painting, conversation_continue
+        
+        # elif VoiceCommand.PaintingOverview.value in response:
+        #     print("<----Painting Overview---->")
+        #     response = response.replace(VoiceCommand.PaintingOverview.value, "")
+        #     agent.text_to_speech(response)
+        #     ongoing_dialog = true
         
         elif VoiceCommand.End.value in response:
             print("<----Ending the conversation---->")
