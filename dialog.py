@@ -43,7 +43,7 @@ def conversation():
     while ongoing_conversation:
         print(f"ONGOING CONVERSATION... {ongoing_conversation}")
         #TODO VoiceCommand.AgentPainting.value to a different value so VI can choose from the paintings to start the conversation
-        # TODO IVO: CHANGE
+        #TODO IVO: CHANGE
         if current_painting == "":
             agent.text_to_speech(VoiceCommand.AgentPainting.value)
         # else:
@@ -153,12 +153,6 @@ def dialog(
             current_painting = ""
             conversation_continue = True
             return current_painting, conversation_continue
-        
-        # elif VoiceCommand.PaintingOverview.value in response:
-        #     print("<----Painting Overview---->")
-        #     response = response.replace(VoiceCommand.PaintingOverview.value, "")
-        #     agent.text_to_speech(response)
-        #     ongoing_dialog = true
         
         elif VoiceCommand.End.value in response:
             print("<----Ending the conversation---->")

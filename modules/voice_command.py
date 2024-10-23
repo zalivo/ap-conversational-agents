@@ -18,7 +18,6 @@ class VoiceCommand(Enum):
     Summary = "#####SUMMARY#####"
     End = "#####END#####"
     ConversationInfo = "#####CONVERSATION_INFO#####"
-    PaintingOverview = "#####PAINTING_OVERVIEW#####"
     # Repeat = "repeat"
 
     #basic response
@@ -42,6 +41,7 @@ class VoiceCommand(Enum):
     AgentOk = "Ok."
     AgentStop = "Ok. Enough for this topic now. If you want to: - discuss about another topic of the same painting - say 'next topic'."	
     AgentGoodbye = "Great to have a conversation with you. Goodbye!"
+    AgentRepeat = " The paintings that we can talk about are: King Caspar, Head of a Boy in a Turban, Portrait of Dom Miguel de Castro or Portrait of Pedro Sunda"
 
     #Agent speech for topic discussion
     AgentGuide = ["I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in.",
