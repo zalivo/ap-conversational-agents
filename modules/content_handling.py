@@ -115,6 +115,25 @@ def ask_topic(agent):
             found_topic = True
     return topic
 
+def repeat_paintings(agent):
+    found_repeat = False
+    while not found_repeat:
+        agent.text_to_speech(VoiceCommand.AgentRepeat.value)  # Can you repeat the painting name?
+        user_input = agent.speech_to_text()  # Listening for repeated painting name
+        print(f"User input for repeating paintings: {user_input}")
+        
+        repeated_painting = repeat_painting(user_input.lower())
+
+        if repeated_painting == "":
+            agent.text_to_speech(VoiceCommand.AgentRepeatError.value)  # No match found, ask again
+            continue
+        else:
+            print("Repeated painting: ", repeated_painting)
+            agent.text_to_speech(f"Yes, you mentioned {repeated_painting} earlier.")
+            found_repeat = True
+
+    return repeated_painting
+
 def ask_artifact(agent):
     """
     Agent ask for the artifact name and handling user input

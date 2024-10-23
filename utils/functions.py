@@ -22,6 +22,9 @@ topic_mapping = {
     "story": "story",
     "artifact": "artifact"
 }
+repeated_paintings ={
+    "car" : "VoiceCommand.AgentRepeat.value"
+}
 
 def match_painting_name(user_input):
     """
@@ -50,4 +53,11 @@ def match_topic(user_input):
         if topic in user_input:
             return topic_mapping[topic] # return the full name
     return ""
-
+def repeat_painting(user_input):
+    """
+    Repeat the paintings given to the user.
+    """
+    for painting in painting_history:
+        if painting.lower() in user_input:
+            return painting  # Return the full painting name if a match is found
+    return ""
