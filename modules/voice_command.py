@@ -18,6 +18,7 @@ class VoiceCommand(Enum):
     Summary = "#####SUMMARY#####"
     End = "#####END#####"
     ConversationInfo = "#####CONVERSATION_INFO#####"
+    PaintingOverview = "#####PAINTING_OVERVIEW#####"
     # Repeat = "repeat"
 
     #basic response
