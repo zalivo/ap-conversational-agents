@@ -103,7 +103,9 @@ def dialog(
     ongoing_dialog = True  
     conversation_continue = True
 
-    agent.text_to_speech(VoiceCommand.AgentTopic.value) # asking to discuss AgentBridge before
+    # TODO add painting desription
+    agent.text_to_speech(VoiceCommand.AgentAskDescription.value)
+    #agent.text_to_speech(VoiceCommand.AgentTopic.value) # asking to discuss AgentBridge before TODO change this to first provide general visual overview of the painting and then ask for this
 
     while ongoing_dialog:
         user_input = agent.speech_to_text()

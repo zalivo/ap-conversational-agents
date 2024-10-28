@@ -51,7 +51,7 @@ class VoiceCommand(Enum):
     AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
     AgentArtifact = "Which artifact in the painting would you like to know more about?"
     AgentTopic = "Here are some topics I can provide more information about: Painting Style, Painting Color, Story, or Artifacts of the painting. Did any of them catch you interest?"
-
+    AgentAskDescription = "Let's first start off with a visual description of the painting, shall we?"
     #Error handling
     AgentPaintingError = "Sorry, I couldn't find the information about this painting..."
     AgentTopicError = "I'm sorry, I don't have information about the topic you mentioned."
