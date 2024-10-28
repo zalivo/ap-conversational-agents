@@ -36,6 +36,7 @@ class VoiceCommand(Enum):
 
     #Default agent speech
     AgentGreeting = "Hi there! "
+    AgentIntroducion = "My name is Sarah and I'll be your guide in exploring five paintings from the exhibition called HERE: BLack in Rembrandt's Time. If anything catches your interest while we talk, please don't hesitate to ask."
     AgentSorry = "Sorry, I don't understand. Can you repeat that?"
     AgentOk = "Ok."
     AgentStop = "Ok. Enough for this topic now. If you want to: - discuss about another topic of the same painting - say 'next topic'."	
@@ -45,11 +46,12 @@ class VoiceCommand(Enum):
     AgentGuide = ["I'm here to help you with information about the painting. You can ask me about the painting story, style, artifacts, or any topic you are interested in.",
                   "hey", "your mom", "your dad"]
     AgentBridge = "Can you tell me about what you can see from the painting?"
-    AgentPainting = "Let's have some discussion. Can you tell me name of the painting you would like to know about?"
-    AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
+    AgentPainting = "I can provide more information about the following paintings, let me know about which would you like to talk about: King Caspar, Head of a Boy in a Turban, Portrait of Dom Miguel de Castro or Portrait of Pedro Sunda"
+    AgentPaintingAnother = "Can you repeat the painting name please? The paintings are King Caspar, Head of a Boy in a Turban, Portrait of Dom Miguel de Castro or Portrait of Pedro Sunda"
     AgentArtifact = "Which artifact would you like to know about?"
     AgentTopic = "Here are some topics you might interest: Painting Style, Painting Color, Story, or Artifacts of the painting. Are there anything you would like to know?"
-
+    AgentAskDescription="Let's first start off with a visual description of the painting, shall we?"
+    
     #Error handling
     AgentPaintingError = "Sorry, I couldn't find the information about this painting..."
     AgentTopicError = "I'm sorry, I don't have information about the topic you mentioned."

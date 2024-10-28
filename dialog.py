@@ -31,10 +31,9 @@ def conversation():
     
     # intialise conversation
     if VoiceCommand.AgentGuide.name not in command_history:
-        agent_guide = VoiceCommand.get_random(VoiceCommand.AgentGuide)
-        agent.text_to_speech(agent_guide)
+        agent.text_to_speech(VoiceCommand.AgentIntroducion.value)
         #add command to history
-        command_history.append(VoiceCommand.AgentGuide.name)
+        command_history.append(VoiceCommand.AgentIntroducion.name)
 
 
     current_painting = ""
@@ -107,7 +106,7 @@ def dialog(
     ongoing_dialog = True  
     conversation_continue = True
 
-    agent.text_to_speech(VoiceCommand.AgentBridge.value) # asking to discuss
+    agent.text_to_speech(VoiceCommand.AgentAskDescription.value) # asking to discuss
 
     while ongoing_dialog:
         user_input = agent.speech_to_text()

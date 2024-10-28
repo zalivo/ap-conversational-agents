@@ -16,7 +16,7 @@ model:
 sample:
   firstName: Thomas
   context: >
-    I am visitor in art exhibition. try to describe the painting in describing the style of an art in expressive and artistic way so that I can understand, imagine and visualise it better.
+    I am visually impaired in art exhibition. try to describe the painting in describing the style of an art in expressive and artistic way so that I can understand, imagine and visualise it better.
   image: https://open.smk.dk/artwork/iiif/KMS7
   question: Tell me about what was show in this painting?
 
@@ -56,7 +56,7 @@ provide a short, brief answer about it based on the "user:" part in your {{conve
 # Customer
 You are helping {{firstName}} to find answers to their questions. 
 Do not mention the user's name in your responses.
-They are visitors in art exhibition and need you to describe the painting in a way that they can understand and visualise it better.
+They are visually impaired visitors in art exhibition and need you to describe the painting in a way that they can understand and visualise it better.
 
 # Painting
 {{image}}
