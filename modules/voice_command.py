@@ -48,7 +48,7 @@ class VoiceCommand(Enum):
                   "hey", "your mom", "your dad"]
     AgentBridge = "Can you tell me about what you can see from the painting?" # TODO FIX Maybe use AgentTopic instead?
     AgentPainting = "I can provide more information about the following paintings, let me know about which would you like to talk about: King Caspar, Head of a Boy in a Turban, Portrait of Dom Miguel de Castro or Portrait of Pedro Sunda?" # List the paintings they can talk about
-    AgentPaintingAnother = "Can you repeated the painting name you would like to know?"
+    AgentPaintingAnother = "Can you repeat the painting name please? The paintings are King Caspar, Head of a Boy in a Turban, Portrait of Dom Miguel de Castro or Portrait of Pedro Sunda"
     AgentArtifact = "Which artifact in the painting would you like to know more about?"
     AgentTopic = "Here are some topics I can provide more information about: Painting Style, Painting Color, Story, or Artifacts of the painting. Did any of them catch you interest?"
     AgentAskDescription = "Let's first start off with a visual description of the painting, shall we?"
