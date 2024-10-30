@@ -31,8 +31,7 @@ def conversation():
     
     # intialise conversation
     if VoiceCommand.AgentGuide.name not in command_history:
-        agent_guide = VoiceCommand.get_random(VoiceCommand.AgentGuide)
-        agent.text_to_speech(agent_guide)
+        agent.text_to_speech(VoiceCommand.AgentGuide.value)
         #add command to history
         command_history.append(VoiceCommand.AgentGuide.name)
 
