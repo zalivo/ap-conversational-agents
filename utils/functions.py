@@ -1,5 +1,6 @@
 paintings_mapping = {
     "king": "King Caspar",
+    "first painting": "King Caspar",
     "boy": "Head of a Boy in a Turban",
     "castro": "Portrait of Dom Miguel de Castro",
     "pedro": "Portrait of Pedro Sunda",

@@ -65,6 +65,7 @@ class VRisper:
             print("Listening...")
             try:
                 # Recognition result from input
+                # Check interval
                 recog_result = self.speech_recognizer.recognize_once_async().get()
 
                 # Speech was recognized

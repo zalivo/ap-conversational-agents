@@ -20,6 +20,7 @@ class PaintingsKnowledge:
         self.info = []
     
     #Queries functions
+    # Add new parameters
 
     def get_all_paintings(self):
         print("Getting all paintings....")
